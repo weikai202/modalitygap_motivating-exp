@@ -1,0 +1,3 @@
+# Install after requirements-cu128.lock or requirements-cpu.lock.
+# Only needed to recover original image bytes from the pinned MMSD2.0 mirror.
+pyarrow==20.0.0

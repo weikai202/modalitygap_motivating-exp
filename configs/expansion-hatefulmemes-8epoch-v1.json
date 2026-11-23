@@ -1,0 +1,21 @@
+{
+  "workspace": "../artifacts/real-expansion-symmetric-8epoch-v1/hatefulmemes",
+  "cache_dir": "../artifacts/hf-cache",
+  "masking_method": "symmetric-attention-v2",
+  "model_revision": "66285546d2b821cf421d4f5eb2576359d3770cd3",
+  "configs": [
+    "L-low"
+  ],
+  "seeds": [
+    42
+  ],
+  "stats_samples": 256,
+  "pilot_steps": 4,
+  "checkpoint_every_steps": 4,
+  "datasets": {
+    "hatefulmemes": {
+      "source": "../data/real-expansion-v1/hatefulmemes/source.jsonl",
+      "source_revision": "Original Hateful Memes binary challenge train/dev_seen; neuralcatcher/hateful_memes@d201c488dc7024623d1ecbcc987b3f132c4c2e12 and panjiyarsunil/hateful-memes-data@759279f46912fafad49dfef472924e899198ec69 annotation bytes agree; IDs,text,paths,split names crosschecked author fine-grained release@845c5f8628209ae6f8d2f391aeb6eea2bb007a07; original binary labels retained, including dev 85761 where later fine-grained label differs; seed42 class-balanced64/32; PNG OCR caveat"
+    }
+  }
+}

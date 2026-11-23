@@ -1,11 +1,11 @@
 # Screening Protocol: Delayed Visual Utilization and Ranking Reversals
 
-- **Version:** 2.0, English edition
-- **Date:** November 13, 2026
+- **Version:** 2.1, symmetric-production amendment
+- **Date:** November 23, 2026
 - **Model:** `Qwen/Qwen2.5-VL-3B-Instruct`
 - **Datasets:** MMSD2.0 and MM-IMDb
 - **Hardware target:** one RTX 3090 with 24 GB VRAM
-- **Status:** proposed protocol; no training or screening results yet.
+- **Status:** implementation and small real-data pilots validated; the complete screening/confirmation study remains to be run. Production masking is the symmetric protocol below.
 
 ## 1. Research questions
 
@@ -164,7 +164,15 @@ Let higher values of the task score be better.
 
 These are interventions on the **same trained model**, not separately trained unimodal models.
 
-### Fixed mean-plus-noise replacement
+### Current production protocol: symmetric mean placeholder plus attention exclusion
+
+Use `symmetric-attention-v2` for the complete study. Replace image/body content embeddings with their frozen training means and block those content keys in every decoder layer, during prefill and cached generation. Keep task instructions, labels, delimiters, assistant boundary, sequence length, original image grid and mRoPE positions. Exclude hidden body token IDs from the repetition-penalty history. No encoder, missing-token embedding, or auxiliary objective is trained.
+
+There are exactly 27 main evaluations per eight-epoch run. Stochastic-noise sensitivity runs below apply only to the legacy protocol; do not mix those results with this protocol. Fixed-length and OCR diagnostics show that retained structure and text inside images must be considered when interpreting the F1 differences.
+
+For full releases, resolve exact content duplicate connected components before sampling, retaining rows only in their highest-priority original split (`test > dev > train`). Do not move rows or inspect model outputs to make this decision. Record every exclusion and report post-audit counts; use the entire retained development/test splits. Strict rejection remains available via `overlap_policy=error`.
+
+### Historical protocol: fixed mean-plus-noise replacement
 
 For modality `m`, replace each content-token embedding with:
 
@@ -190,7 +198,7 @@ The coefficient 0.05 is a preregistered starting choice, not a theoretically neu
 - Retained text length and image grid/aspect ratio still leak metadata. Images may also contain readable text.
 - Fixed replacements may become more out of distribution as the merger changes. Treat masking scores as protocol-dependent reliance, not information-theoretic modality removal.
 
-The main protocol has exactly three conditions per epoch. At epochs 0, 4, and 8, run separately accounted sensitivity checks with two additional noise seeds and mean-only replacement. A fixed small audit set may also use shuffled image–text pairings; this is another diagnostic, not ground truth for contribution.
+The legacy mean-noise protocol has exactly three main conditions per epoch. At epochs 0, 4, and 8, run separately accounted sensitivity checks with two additional noise seeds and mean-only replacement. A fixed small audit set may also use shuffled image–text pairings; this is another diagnostic, not ground truth for contribution.
 
 ## 8. Decoding and metrics
 
@@ -325,3 +333,9 @@ The best candidate is defined only within the six configurations and the fixed e
 - [EMAP: interpreting multimodal interactions](https://aclanthology.org/2020.emnlp-main.62/)
 
 All hyperparameters, screening margins, and staged budgets above are proposed experimental choices, not literature-established optimal settings.
+
+## Authorized symmetric masking extension
+
+The independent `symmetric-attention-v2` protocol uses the same training recipe and fixed training-set means, replacing image/body content embeddings with their modality mean and excluding the corresponding keys at every language decoder layer during prefill and cached generation. Original sequence lengths, outer-model mRoPE positions, image grids, task instructions and generation boundaries are preserved. Repetition penalty applies to visible prompt and generated history only. Training receives complete image/text inputs; this extension introduces no training objective or modality dropout.
+
+Select it explicitly with `--masking-method symmetric-attention-v2` or the launcher's `masking_method` field. Run configurations, pipeline identities and exact-resume signatures freeze this choice; never mix its curves with `mean-noise-v1`. Its deterministic mean/key-exclusion intervention has three evaluations per epoch (27 over epochs 0–8); noise-seed and mean-only sensitivity evaluations apply only to the original stochastic protocol. See README and `configs/real-symmetric-8epoch.json` for the separately versioned real-data subset trajectory.

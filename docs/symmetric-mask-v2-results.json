@@ -1,0 +1,2152 @@
+{
+  "mmsd2": {
+    "plan": {
+      "dataset": "mmsd2",
+      "dev_ids": [
+        "687478220090806273",
+        "694514328603459585",
+        "722967888441671681",
+        "817516926733840385",
+        "817517945639342081",
+        "817518404525588482",
+        "818243363489120257",
+        "818244520903081984",
+        "818245639532257280",
+        "818604810056384512",
+        "818605551894544385",
+        "819324208769593346",
+        "819325561805926400",
+        "819689946223153154",
+        "819690552568451073",
+        "819694804225392640",
+        "820052405840650241",
+        "822222869052686336",
+        "822585914924945409",
+        "822951090903719940",
+        "823310569612525569",
+        "823314921593180160",
+        "823317812932386816",
+        "824711255126466560",
+        "828026286413070336",
+        "847547210778591232",
+        "872104147683753984",
+        "872955319688847365",
+        "903462968175689728",
+        "904624565145538560",
+        "913877633162731521",
+        "939294618272911360"
+      ],
+      "probe_ids": [
+        "818244520903081984",
+        "818605551894544385",
+        "820052405840650241",
+        "904624565145538560",
+        "823310569612525569",
+        "817516926733840385",
+        "939294618272911360",
+        "822951090903719940"
+      ],
+      "epochs": [
+        0,
+        2
+      ],
+      "conditions": [
+        "full",
+        "mask_image",
+        "mask_text"
+      ],
+      "method": "fixed training means + all-layer hidden-key exclusion",
+      "repetition_penalty": "1.05 on visible prompt/generated tokens; masked prompt excluded",
+      "position_policy": "Outer model receives original attention mask and grids; decoder key mask applied after original mRoPE construction",
+      "source_sha256": "c67793f25399500ad596e980c801a474b9cc396f1897e5cee7ddbd6694303c21",
+      "manifest_sha256": "75744a9a5d82409cafb0b35b339f3f04d8e32c0a85999535142e27a8ac701c33"
+    },
+    "metrics": {
+      "epoch_0_full": {
+        "epoch": 0,
+        "condition": "full",
+        "macro_f1": 0.4126984126984127,
+        "micro_f1": 0.4782608695652174,
+        "invalid_rate": 0.5625,
+        "predicted_label_count": 0.4375,
+        "output_length": 4.75,
+        "truncation_rate": 0.0,
+        "per_label": {
+          "not_sarcastic": {
+            "precision": 0.8333333333333334,
+            "recall": 0.625,
+            "f1": 0.7142857142857143
+          },
+          "sarcastic": {
+            "precision": 0.5,
+            "recall": 0.0625,
+            "f1": 0.1111111111111111
+          }
+        },
+        "count": 32,
+        "accuracy": 0.34375,
+        "sarcastic_f1": 0.1111111111111111,
+        "score": 0.4126984126984127,
+        "mean_eos_probability": 9.999983691805214e-09,
+        "mean_processed_eos_probability": 7.533279890517552e-09,
+        "first_eos_count": 0,
+        "invalid_outputs": {
+          "sarcasm": 18
+        },
+        "mean_generated_length": 4.75
+      },
+      "epoch_0_mask_image": {
+        "epoch": 0,
+        "condition": "mask_image",
+        "macro_f1": 0.2857142857142857,
+        "micro_f1": 0.36363636363636365,
+        "invalid_rate": 0.625,
+        "predicted_label_count": 0.375,
+        "output_length": 4.75,
+        "truncation_rate": 0.0,
+        "per_label": {
+          "not_sarcastic": {
+            "precision": 0.6666666666666666,
+            "recall": 0.5,
+            "f1": 0.5714285714285714
+          },
+          "sarcastic": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        },
+        "count": 32,
+        "accuracy": 0.25,
+        "sarcastic_f1": 0.0,
+        "score": 0.2857142857142857,
+        "mean_eos_probability": 1.186394198854357e-08,
+        "mean_processed_eos_probability": 8.702931392906565e-09,
+        "first_eos_count": 0,
+        "invalid_outputs": {
+          "sarcasm": 20
+        },
+        "mean_generated_length": 4.75
+      },
+      "epoch_0_mask_text": {
+        "epoch": 0,
+        "condition": "mask_text",
+        "macro_f1": 0.3235294117647059,
+        "micro_f1": 0.44,
+        "invalid_rate": 0.4375,
+        "predicted_label_count": 0.5625,
+        "output_length": 5.125,
+        "truncation_rate": 0.0,
+        "per_label": {
+          "not_sarcastic": {
+            "precision": 0.6111111111111112,
+            "recall": 0.6875,
+            "f1": 0.6470588235294118
+          },
+          "sarcastic": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        },
+        "count": 32,
+        "accuracy": 0.34375,
+        "sarcastic_f1": 0.0,
+        "score": 0.3235294117647059,
+        "mean_eos_probability": 7.410169679256118e-09,
+        "mean_processed_eos_probability": 5.6646561486656255e-09,
+        "first_eos_count": 0,
+        "invalid_outputs": {
+          "sarcasm": 14
+        },
+        "mean_generated_length": 5.125
+      },
+      "epoch_2_full": {
+        "epoch": 2,
+        "condition": "full",
+        "macro_f1": 0.7729166666666667,
+        "micro_f1": 0.7741935483870968,
+        "invalid_rate": 0.0625,
+        "predicted_label_count": 0.9375,
+        "output_length": 5.0,
+        "truncation_rate": 0.0,
+        "per_label": {
+          "not_sarcastic": {
+            "precision": 0.8125,
+            "recall": 0.8125,
+            "f1": 0.8125
+          },
+          "sarcastic": {
+            "precision": 0.7857142857142857,
+            "recall": 0.6875,
+            "f1": 0.7333333333333333
+          }
+        },
+        "count": 32,
+        "accuracy": 0.75,
+        "sarcastic_f1": 0.7333333333333333,
+        "score": 0.7729166666666667,
+        "mean_eos_probability": 1.0478499030269761e-08,
+        "mean_processed_eos_probability": 7.91113037058866e-09,
+        "first_eos_count": 0,
+        "invalid_outputs": {
+          "sarcasm": 2
+        },
+        "mean_generated_length": 5.0
+      },
+      "epoch_2_mask_image": {
+        "epoch": 2,
+        "condition": "mask_image",
+        "macro_f1": 0.5696969696969697,
+        "micro_f1": 0.5714285714285714,
+        "invalid_rate": 0.03125,
+        "predicted_label_count": 0.96875,
+        "output_length": 5.0625,
+        "truncation_rate": 0.0,
+        "per_label": {
+          "not_sarcastic": {
+            "precision": 0.5882352941176471,
+            "recall": 0.625,
+            "f1": 0.6060606060606061
+          },
+          "sarcastic": {
+            "precision": 0.5714285714285714,
+            "recall": 0.5,
+            "f1": 0.5333333333333333
+          }
+        },
+        "count": 32,
+        "accuracy": 0.5625,
+        "sarcastic_f1": 0.5333333333333333,
+        "score": 0.5696969696969697,
+        "mean_eos_probability": 1.2291025940081024e-08,
+        "mean_processed_eos_probability": 9.073056240344046e-09,
+        "first_eos_count": 0,
+        "invalid_outputs": {
+          "sarcasm": 1
+        },
+        "mean_generated_length": 5.0625
+      },
+      "epoch_2_mask_text": {
+        "epoch": 2,
+        "condition": "mask_text",
+        "macro_f1": 0.618421052631579,
+        "micro_f1": 0.6451612903225806,
+        "invalid_rate": 0.0625,
+        "predicted_label_count": 0.9375,
+        "output_length": 5.375,
+        "truncation_rate": 0.0,
+        "per_label": {
+          "not_sarcastic": {
+            "precision": 0.6363636363636364,
+            "recall": 0.875,
+            "f1": 0.7368421052631579
+          },
+          "sarcastic": {
+            "precision": 0.75,
+            "recall": 0.375,
+            "f1": 0.5
+          }
+        },
+        "count": 32,
+        "accuracy": 0.625,
+        "sarcastic_f1": 0.5,
+        "score": 0.618421052631579,
+        "mean_eos_probability": 7.490512966834562e-09,
+        "mean_processed_eos_probability": 5.770353446801768e-09,
+        "first_eos_count": 0,
+        "invalid_outputs": {
+          "sarcasm": 2
+        },
+        "mean_generated_length": 5.375
+      }
+    },
+    "stats_sha256": "5a8879492419c04d6174fbdf090dcc127bf62d25df2096115a1455e005a3bbf1",
+    "checkpoint_sha256": {
+      "0": "18da027e4fe915aa610a8f4631ba790466415182b56ad55981dccef7402d3b3c",
+      "2": "780865548534626700eacb5142216e12d11a1916b2a57574a9ab6677ae8bd18f"
+    },
+    "leakage_probes": 32,
+    "all_masked_logits_bitwise_identical": true,
+    "full_perturbation_controls_nonzero": 32,
+    "full_perturbation_control_total": 32,
+    "leakage": [
+      {
+        "epoch": 0,
+        "id": "818244520903081984",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 4.71875,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 0,
+        "id": "818244520903081984",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 3.828125,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 0,
+        "id": "818605551894544385",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 6.875,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 0,
+        "id": "818605551894544385",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 2.09375,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 0,
+        "id": "820052405840650241",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 3.625,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 0,
+        "id": "820052405840650241",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 5.875,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 0,
+        "id": "904624565145538560",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 5.40625,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 0,
+        "id": "904624565145538560",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 1.453125,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 0,
+        "id": "823310569612525569",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 4.4375,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 0,
+        "id": "823310569612525569",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 2.25,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 0,
+        "id": "817516926733840385",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 5.28125,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 0,
+        "id": "817516926733840385",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 1.78125,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 0,
+        "id": "939294618272911360",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 2.859375,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 0,
+        "id": "939294618272911360",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 3.609375,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 0,
+        "id": "822951090903719940",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 4.90625,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 0,
+        "id": "822951090903719940",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 2.40625,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "818244520903081984",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 4.46875,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "818244520903081984",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 3.90625,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "818605551894544385",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 7.0,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "818605551894544385",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 2.109375,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "820052405840650241",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 3.6875,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "820052405840650241",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 6.125,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "904624565145538560",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 5.40625,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "904624565145538560",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 1.25,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "823310569612525569",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 4.34375,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "823310569612525569",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 2.21875,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "817516926733840385",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 5.25,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "817516926733840385",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 1.625,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "939294618272911360",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 2.703125,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "939294618272911360",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 3.5625,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "822951090903719940",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 4.890625,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "822951090903719940",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 2.322265625,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      }
+    ]
+  },
+  "mmimdb": {
+    "plan": {
+      "dataset": "mmimdb",
+      "dev_ids": [
+        "0026912",
+        "0039040",
+        "0039566",
+        "0044110",
+        "0044207",
+        "0059601",
+        "0064482",
+        "0071746",
+        "0087078",
+        "0096440",
+        "0097243",
+        "0099902",
+        "0100639",
+        "0105631",
+        "0108252",
+        "0110255",
+        "0114857",
+        "0115491",
+        "0120102",
+        "0181173",
+        "0187809",
+        "0286482",
+        "0338135",
+        "0364556",
+        "0490196",
+        "0790612",
+        "0834938",
+        "0859644",
+        "1161443",
+        "1295053",
+        "1360822",
+        "2238050"
+      ],
+      "probe_ids": [
+        "0071746",
+        "0097243",
+        "0114857",
+        "1295053",
+        "0187809",
+        "0044110",
+        "2238050",
+        "0181173"
+      ],
+      "epochs": [
+        0,
+        2
+      ],
+      "conditions": [
+        "full",
+        "mask_image",
+        "mask_text"
+      ],
+      "method": "fixed training means + all-layer hidden-key exclusion",
+      "repetition_penalty": "1.05 on visible prompt/generated tokens; masked prompt excluded",
+      "position_policy": "Outer model receives original attention mask and grids; decoder key mask applied after original mRoPE construction",
+      "source_sha256": "c67793f25399500ad596e980c801a474b9cc396f1897e5cee7ddbd6694303c21",
+      "manifest_sha256": "ba26805230d25e730cd68d7362d222f299b8fd1a9bbc75fe1f44ad84f74091b2"
+    },
+    "metrics": {
+      "epoch_0_full": {
+        "epoch": 0,
+        "condition": "full",
+        "macro_f1": 0.2680720245937637,
+        "micro_f1": 0.41818181818181815,
+        "invalid_rate": 0.0625,
+        "predicted_label_count": 0.96875,
+        "output_length": 5.0,
+        "truncation_rate": 0.0,
+        "per_label": {
+          "Action": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333,
+            "f1": 0.5
+          },
+          "Adventure": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333,
+            "f1": 0.5
+          },
+          "Animation": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "Biography": {
+            "precision": 1.0,
+            "recall": 0.5,
+            "f1": 0.6666666666666666
+          },
+          "Comedy": {
+            "precision": 0.875,
+            "recall": 0.7,
+            "f1": 0.7777777777777778
+          },
+          "Crime": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Documentary": {
+            "precision": 0.42857142857142855,
+            "recall": 1.0,
+            "f1": 0.6
+          },
+          "Drama": {
+            "precision": 0.8333333333333334,
+            "recall": 0.3125,
+            "f1": 0.45454545454545453
+          },
+          "Family": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Fantasy": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Film-Noir": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "History": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Horror": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333,
+            "f1": 0.5
+          },
+          "Music": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Musical": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Mystery": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333,
+            "f1": 0.5
+          },
+          "Romance": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Sci-Fi": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Short": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Sport": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Thriller": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "War": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Western": {
+            "precision": 0.5,
+            "recall": 1.0,
+            "f1": 0.6666666666666666
+          }
+        },
+        "count": 32,
+        "score": 0.41818181818181815,
+        "mean_eos_probability": 4.846300853678098e-09,
+        "mean_processed_eos_probability": 3.0933123354448533e-09,
+        "first_eos_count": 0,
+        "invalid_outputs": {
+          "[\"Science-Fiction\"]": 2
+        },
+        "mean_generated_length": 5.0
+      },
+      "epoch_0_mask_image": {
+        "epoch": 0,
+        "condition": "mask_image",
+        "macro_f1": 0.28782527503755123,
+        "micro_f1": 0.41379310344827586,
+        "invalid_rate": 0.03125,
+        "predicted_label_count": 1.15625,
+        "output_length": 5.53125,
+        "truncation_rate": 0.0,
+        "per_label": {
+          "Action": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333,
+            "f1": 0.5
+          },
+          "Adventure": {
+            "precision": 0.6666666666666666,
+            "recall": 0.6666666666666666,
+            "f1": 0.6666666666666666
+          },
+          "Animation": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "Biography": {
+            "precision": 0.25,
+            "recall": 0.5,
+            "f1": 0.3333333333333333
+          },
+          "Comedy": {
+            "precision": 0.7142857142857143,
+            "recall": 0.5,
+            "f1": 0.5882352941176471
+          },
+          "Crime": {
+            "precision": 1.0,
+            "recall": 0.2,
+            "f1": 0.3333333333333333
+          },
+          "Documentary": {
+            "precision": 0.42857142857142855,
+            "recall": 1.0,
+            "f1": 0.6
+          },
+          "Drama": {
+            "precision": 1.0,
+            "recall": 0.3125,
+            "f1": 0.47619047619047616
+          },
+          "Family": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Fantasy": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Film-Noir": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "History": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "Horror": {
+            "precision": 0.5,
+            "recall": 0.3333333333333333,
+            "f1": 0.4
+          },
+          "Music": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Musical": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Mystery": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333,
+            "f1": 0.5
+          },
+          "Romance": {
+            "precision": 0.5,
+            "recall": 0.14285714285714285,
+            "f1": 0.2222222222222222
+          },
+          "Sci-Fi": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Short": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Sport": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Thriller": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "War": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Western": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        },
+        "count": 32,
+        "score": 0.41379310344827586,
+        "mean_eos_probability": 7.183321888704075e-09,
+        "mean_processed_eos_probability": 4.422353636068799e-09,
+        "first_eos_count": 0,
+        "invalid_outputs": {
+          "[\"Science-Fiction\"]": 1
+        },
+        "mean_generated_length": 5.53125
+      },
+      "epoch_0_mask_text": {
+        "epoch": 0,
+        "condition": "mask_text",
+        "macro_f1": 0.3052418595896857,
+        "micro_f1": 0.43243243243243246,
+        "invalid_rate": 0.09375,
+        "predicted_label_count": 1.0,
+        "output_length": 5.21875,
+        "truncation_rate": 0.0,
+        "per_label": {
+          "Action": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333,
+            "f1": 0.5
+          },
+          "Adventure": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333,
+            "f1": 0.5
+          },
+          "Animation": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "Biography": {
+            "precision": 1.0,
+            "recall": 0.5,
+            "f1": 0.6666666666666666
+          },
+          "Comedy": {
+            "precision": 0.75,
+            "recall": 0.9,
+            "f1": 0.8181818181818182
+          },
+          "Crime": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Documentary": {
+            "precision": 0.3333333333333333,
+            "recall": 0.6666666666666666,
+            "f1": 0.4444444444444444
+          },
+          "Drama": {
+            "precision": 1.0,
+            "recall": 0.125,
+            "f1": 0.2222222222222222
+          },
+          "Family": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Fantasy": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Film-Noir": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "History": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Horror": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333,
+            "f1": 0.5
+          },
+          "Music": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Musical": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Mystery": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333,
+            "f1": 0.5
+          },
+          "Romance": {
+            "precision": 1.0,
+            "recall": 0.14285714285714285,
+            "f1": 0.25
+          },
+          "Sci-Fi": {
+            "precision": 1.0,
+            "recall": 0.5,
+            "f1": 0.6666666666666666
+          },
+          "Short": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Sport": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Thriller": {
+            "precision": 1.0,
+            "recall": 0.16666666666666666,
+            "f1": 0.2857142857142857
+          },
+          "War": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Western": {
+            "precision": 0.5,
+            "recall": 1.0,
+            "f1": 0.6666666666666666
+          }
+        },
+        "count": 32,
+        "score": 0.43243243243243246,
+        "mean_eos_probability": 2.9796637587842234e-09,
+        "mean_processed_eos_probability": 1.858561092787231e-09,
+        "first_eos_count": 0,
+        "invalid_outputs": {
+          "[\"Science-Fiction\"]": 2,
+          "[\"Rock\"]": 1
+        },
+        "mean_generated_length": 5.21875
+      },
+      "epoch_2_full": {
+        "epoch": 2,
+        "condition": "full",
+        "macro_f1": 0.2680720245937637,
+        "micro_f1": 0.41818181818181815,
+        "invalid_rate": 0.0625,
+        "predicted_label_count": 0.96875,
+        "output_length": 5.0,
+        "truncation_rate": 0.0,
+        "per_label": {
+          "Action": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333,
+            "f1": 0.5
+          },
+          "Adventure": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333,
+            "f1": 0.5
+          },
+          "Animation": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "Biography": {
+            "precision": 1.0,
+            "recall": 0.5,
+            "f1": 0.6666666666666666
+          },
+          "Comedy": {
+            "precision": 0.875,
+            "recall": 0.7,
+            "f1": 0.7777777777777778
+          },
+          "Crime": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Documentary": {
+            "precision": 0.42857142857142855,
+            "recall": 1.0,
+            "f1": 0.6
+          },
+          "Drama": {
+            "precision": 0.8333333333333334,
+            "recall": 0.3125,
+            "f1": 0.45454545454545453
+          },
+          "Family": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Fantasy": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Film-Noir": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "History": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Horror": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333,
+            "f1": 0.5
+          },
+          "Music": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Musical": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Mystery": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333,
+            "f1": 0.5
+          },
+          "Romance": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Sci-Fi": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Short": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Sport": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Thriller": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "War": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Western": {
+            "precision": 0.5,
+            "recall": 1.0,
+            "f1": 0.6666666666666666
+          }
+        },
+        "count": 32,
+        "score": 0.41818181818181815,
+        "mean_eos_probability": 4.2528801209862355e-09,
+        "mean_processed_eos_probability": 2.7257941528913143e-09,
+        "first_eos_count": 0,
+        "invalid_outputs": {
+          "[\"Science-Fiction\"]": 2
+        },
+        "mean_generated_length": 5.0
+      },
+      "epoch_2_mask_image": {
+        "epoch": 2,
+        "condition": "mask_image",
+        "macro_f1": 0.31255706498673247,
+        "micro_f1": 0.4166666666666667,
+        "invalid_rate": 0.03125,
+        "predicted_label_count": 1.28125,
+        "output_length": 5.96875,
+        "truncation_rate": 0.0,
+        "per_label": {
+          "Action": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333,
+            "f1": 0.5
+          },
+          "Adventure": {
+            "precision": 0.5,
+            "recall": 0.6666666666666666,
+            "f1": 0.5714285714285714
+          },
+          "Animation": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "Biography": {
+            "precision": 0.3333333333333333,
+            "recall": 0.5,
+            "f1": 0.4
+          },
+          "Comedy": {
+            "precision": 0.7142857142857143,
+            "recall": 0.5,
+            "f1": 0.5882352941176471
+          },
+          "Crime": {
+            "precision": 0.5,
+            "recall": 0.2,
+            "f1": 0.2857142857142857
+          },
+          "Documentary": {
+            "precision": 0.42857142857142855,
+            "recall": 1.0,
+            "f1": 0.6
+          },
+          "Drama": {
+            "precision": 0.8333333333333334,
+            "recall": 0.3125,
+            "f1": 0.45454545454545453
+          },
+          "Family": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Fantasy": {
+            "precision": 1.0,
+            "recall": 0.5,
+            "f1": 0.6666666666666666
+          },
+          "Film-Noir": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "History": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "Horror": {
+            "precision": 0.5,
+            "recall": 0.3333333333333333,
+            "f1": 0.4
+          },
+          "Music": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Musical": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Mystery": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333,
+            "f1": 0.5
+          },
+          "Romance": {
+            "precision": 0.5,
+            "recall": 0.14285714285714285,
+            "f1": 0.2222222222222222
+          },
+          "Sci-Fi": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Short": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Sport": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Thriller": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "War": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Western": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        },
+        "count": 32,
+        "score": 0.4166666666666667,
+        "mean_eos_probability": 6.844943251094193e-09,
+        "mean_processed_eos_probability": 4.212313151064073e-09,
+        "first_eos_count": 0,
+        "invalid_outputs": {
+          "[\"Science-Fiction\"]": 1
+        },
+        "mean_generated_length": 5.96875
+      },
+      "epoch_2_mask_text": {
+        "epoch": 2,
+        "condition": "mask_text",
+        "macro_f1": 0.27625635234330886,
+        "micro_f1": 0.41818181818181815,
+        "invalid_rate": 0.125,
+        "predicted_label_count": 0.96875,
+        "output_length": 5.34375,
+        "truncation_rate": 0.0,
+        "per_label": {
+          "Action": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333,
+            "f1": 0.5
+          },
+          "Adventure": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333,
+            "f1": 0.5
+          },
+          "Animation": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "Biography": {
+            "precision": 1.0,
+            "recall": 0.5,
+            "f1": 0.6666666666666666
+          },
+          "Comedy": {
+            "precision": 0.75,
+            "recall": 0.9,
+            "f1": 0.8181818181818182
+          },
+          "Crime": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Documentary": {
+            "precision": 0.3333333333333333,
+            "recall": 0.6666666666666666,
+            "f1": 0.4444444444444444
+          },
+          "Drama": {
+            "precision": 1.0,
+            "recall": 0.125,
+            "f1": 0.2222222222222222
+          },
+          "Family": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Fantasy": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Film-Noir": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "History": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Horror": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333,
+            "f1": 0.5
+          },
+          "Music": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Musical": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Mystery": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333,
+            "f1": 0.5
+          },
+          "Romance": {
+            "precision": 1.0,
+            "recall": 0.14285714285714285,
+            "f1": 0.25
+          },
+          "Sci-Fi": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Short": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Sport": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Thriller": {
+            "precision": 1.0,
+            "recall": 0.16666666666666666,
+            "f1": 0.2857142857142857
+          },
+          "War": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "Western": {
+            "precision": 0.5,
+            "recall": 1.0,
+            "f1": 0.6666666666666666
+          }
+        },
+        "count": 32,
+        "score": 0.41818181818181815,
+        "mean_eos_probability": 2.5984131894751794e-09,
+        "mean_processed_eos_probability": 1.62737655035744e-09,
+        "first_eos_count": 0,
+        "invalid_outputs": {
+          "[\"Science-Fiction\"]": 2,
+          "[\"Action\", \"Science-Fiction\"]": 1,
+          "[\"Rock\"]": 1
+        },
+        "mean_generated_length": 5.34375
+      }
+    },
+    "stats_sha256": "a55695222a1e01a8349e6f0bc786d46c392d30744825278d7d502abc71aac698",
+    "checkpoint_sha256": {
+      "0": "18da027e4fe915aa610a8f4631ba790466415182b56ad55981dccef7402d3b3c",
+      "2": "568f127b6d948f75ffa480e4b5a5eb8efad575b23a3842361476077ea1b3c82d"
+    },
+    "leakage_probes": 32,
+    "all_masked_logits_bitwise_identical": true,
+    "full_perturbation_controls_nonzero": 32,
+    "full_perturbation_control_total": 32,
+    "leakage": [
+      {
+        "epoch": 0,
+        "id": "0071746",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 7.34375,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 0,
+        "id": "0071746",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 2.48046875,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 0,
+        "id": "0097243",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 8.90625,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 0,
+        "id": "0097243",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 2.3125,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 0,
+        "id": "0114857",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 6.5,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 0,
+        "id": "0114857",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 2.203125,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 0,
+        "id": "1295053",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 7.34375,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 0,
+        "id": "1295053",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 5.65625,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 0,
+        "id": "0187809",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 8.09375,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 0,
+        "id": "0187809",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 2.21875,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 0,
+        "id": "0044110",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 7.9375,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 0,
+        "id": "0044110",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 3.5234375,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 0,
+        "id": "2238050",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 7.84375,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 0,
+        "id": "2238050",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 4.1796875,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 0,
+        "id": "0181173",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 9.75,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 0,
+        "id": "0181173",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 2.5,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "0071746",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 7.15625,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "0071746",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 2.62109375,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "0097243",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 9.09375,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "0097243",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 2.375,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "0114857",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 6.640625,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "0114857",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 2.25,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "1295053",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 7.28125,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "1295053",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 5.6875,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "0187809",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 8.109375,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "0187809",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 2.09375,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "0044110",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 7.84375,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "0044110",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 3.43359375,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "2238050",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 8.375,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "2238050",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 3.8359375,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "0181173",
+        "condition": "mask_text",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 9.53125,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      },
+      {
+        "epoch": 2,
+        "id": "0181173",
+        "condition": "mask_image",
+        "masked_max_absolute_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_first_logit_max_delta": 2.5,
+        "attention_checks": 288,
+        "exact_prefill_processed_and_three_cached_steps": true
+      }
+    ]
+  },
+  "validation": {
+    "model_revision": "66285546d2b821cf421d4f5eb2576359d3770cd3",
+    "predictions": 384,
+    "leakage_probes": 64,
+    "masked_max_absolute_delta": 0.0,
+    "unchanged_full_generations": 128,
+    "targeted_tests_passed": 2,
+    "source_sha256": {
+      "scripts/symmetric_mask.py": "c67793f25399500ad596e980c801a474b9cc396f1897e5cee7ddbd6694303c21",
+      "scripts/diagnose_symmetric_mask.py": "88ec097c7f22e46fcfda968d41e3affadc37b4f0c149d3d1ca7e9981399235c2",
+      "tests/test_symmetric_mask.py": "68b0e1a06259fc92e61b75b4f4d58ea1268148772644b348fc4f802c7412b9d7"
+    },
+    "test_log_sha256": "50f5c0558342b3e6368e6f9c2833c8b807db7d316072aa4c545d76d33a06cd46",
+    "gpu_regression": {
+      "status": "passed",
+      "tests": 34,
+      "skipped": 0,
+      "log": "artifacts/symmetric-mask-v2-gpu-regression-tests.log",
+      "sha256": "ab429b2f568456d5ed97ef141cb0951b12369b51fe962064155259154d79d0f4"
+    }
+  }
+}
