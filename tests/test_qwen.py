@@ -64,7 +64,8 @@ class QwenTests(unittest.TestCase):
                     load_trainable(restored,broken)
 
     def test_scopes_backward_and_cached_interventions(self):
-        from modalitygap.model import Intervention,adapt
+        from modalitygap.symmetric_mask import SymmetricMask
+        from modalitygap.model import adapt
         for scope in ('L','M','LM'):
             with self.subTest(scope=scope):
                 model,parameters = adapt(self.model(),scope,42)
@@ -80,16 +81,16 @@ class QwenTests(unittest.TestCase):
                 self.assertTrue(any(p.grad is not None for p in model.parameters() if p.requires_grad))
                 model.eval()
                 stats = {m:dict(mean=torch.zeros(32),std=torch.ones(32)) for m in ('image','text')}
-                hook = Intervention(model,stats)
+                hook = SymmetricMask(model,stats)
                 try:
                     with torch.no_grad():
                         plain = model(**inp,use_cache=False).logits
-                        with hook.use(dict(id='tiny'),inp,[7,8,9]):
+                        with hook.use(inp,[7,8,9],'full'):
                             full = model(**inp,use_cache=False).logits
                         self.assertTrue(torch.equal(plain,full))
                         for condition in ('mask_image','mask_text'):
                             count = len(hook.logs)
-                            with hook.use(dict(id='tiny'),inp,[7,8,9],condition):
+                            with hook.use(inp,[7,8,9],condition):
                                 out = model.generate(**inp,do_sample=False,use_cache=True,max_new_tokens=3,
                                                      eos_token_id=None,pad_token_id=0)
                             self.assertEqual(out.shape[1],13)

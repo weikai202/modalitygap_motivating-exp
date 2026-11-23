@@ -3,7 +3,7 @@
   "cache_dir": "../artifacts/hf-cache",
   "model_revision": "66285546d2b821cf421d4f5eb2576359d3770cd3",
   "masking_method": "symmetric-attention-v2",
-  "pool_size": 6000,
+  "pool_size": "all",
   "overlap_policy": "prefer-heldout",
   "configs": [
     "L-low",
@@ -19,7 +19,6 @@
     44
   ],
   "stats_samples": 256,
-  "pilot_steps": 4,
   "checkpoint_every_steps": 50,
   "keep_step_checkpoints": 2,
   "datasets": {

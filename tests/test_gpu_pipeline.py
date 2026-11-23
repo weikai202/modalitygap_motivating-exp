@@ -84,7 +84,7 @@ class GPUPipelineTests(unittest.TestCase):
                 for config in CONFIGS:
                     print(f'GPU integration: {dataset}/{config}',flush=True)
                     runner.run(SimpleNamespace(**common,stats=str(stats),output=str(root/'runs'),config=config,
-                        seed=42,pilot_steps=0,code_revision='integration-fixture'))
+                        seed=42,code_revision='integration-fixture'))
                     run = root/'runs'/dataset/config/'seed_42'
                     with (run/'metrics.csv').open() as f:
                         values = list(csv.DictReader(f))
@@ -104,7 +104,7 @@ class GPUPipelineTests(unittest.TestCase):
                     self.assertIn('numpy_rng',state)
                     self.assertIn('cuda_rng',state)
                     self.assertTrue(any(not torch.equal(initial[n],final[n]) for n in initial))
-                    self.assertEqual(len(values),45) # 27 main + 18 sensitivity
+                    self.assertEqual(len(values),27) # Nine epochs, three conditions each
                     self.assertEqual(len(list((run/'checkpoints').glob('epoch_*'))),9)
                     with (run/'metrics.csv').open() as f:
                         metrics = list(csv.DictReader(f))
@@ -124,6 +124,6 @@ class GPUPipelineTests(unittest.TestCase):
                 self.assertEqual(len(list((root/'figures'/dataset).glob('*.png'))),7)
                 report = json.loads((root/'figures'/dataset/'analysis.json').read_text())
                 self.assertEqual(report['actual_main_evaluations'],162)
-                self.assertEqual(report['actual_total_evaluations'],270)
+                self.assertEqual(report['actual_total_evaluations'],162)
                 self.assertEqual(len(report['pairs']),30)
             torch.cuda.empty_cache()

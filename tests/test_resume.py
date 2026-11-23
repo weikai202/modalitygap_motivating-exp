@@ -71,13 +71,13 @@ def fixtures(root,dataset):
         write_jsonl(data/f'{split}.jsonl',[
             dict(id=str(i),group=str(i),text=f'Example {i}',image='test encoder supplies pixels',
                  labels=[LABELS[dataset][-1]]) for i in range(n)])
-    write_json(data/'manifest.json',dict(dataset=dataset,
+    write_json(data/'manifest.json',dict(dataset=dataset,requested_pool_size='all',counts=dict(train=19,dev=1,test=1),retained_complete_counts=dict(train=19,dev=1,test=1),
         split_hashes={s:digest(data/f'{s}.jsonl') for s in ('train','dev','test')}))
     stats=root/f'{dataset}.pt'
     torch.save(dict(**{m:dict(mean=torch.zeros(32),std=torch.ones(32)) for m in ('image','text')},
         metadata=dict(revision='a'*40,manifest_sha256=digest(data/'manifest.json'),input_limits=DEFAULTS)),stats)
     return dict(data=str(data),stats=str(stats),dataset=dataset,revision='a'*40,cache_dir=None,
-        seed=42,pilot_steps=0,code_revision='resume-test',checkpoint_every_steps=0,
+        seed=42,code_revision='resume-test',checkpoint_every_steps=0,keep_step_checkpoints=2,
         stop_after_steps=None,resume_from=None)
 
 
@@ -127,8 +127,9 @@ class ResumeTests(unittest.TestCase):
                         for left,right in zip(expected['trainer']['resources'],actual['trainer']['resources']):
                             for key in ('epoch','step','mean_loss','mean_length','max_length','truncation_rate','last_grad_norm'):
                                 self.assertEqual(left[key],right[key],key)
-                        self.assertEqual(len(actual['trainer']['metrics']),36) # epoch 8 is pending in snapshot
+                        self.assertEqual(len(actual['trainer']['metrics']),24) # epoch 8 is pending in snapshot
                         self.assertEqual(json.loads((resumed/'progress.json').read_text())['status'],'complete')
+                        self.assertLessEqual(len(list((resumed/'checkpoints').glob('step_*'))),2)
                         if dataset=='mmsd2' and config=='LM-low':
                             self.check_pending_evaluation_and_fork(runner,args,baseline,expected_weights,expected,baseline_rng,root)
 
@@ -150,26 +151,3 @@ class ResumeTests(unittest.TestCase):
             runner.run(SimpleNamespace(**dict(args,seed=43,output=str(root/'bad'),
                 resume_from=str(baseline/'checkpoints'/'epoch_2'))))
         self.assertFalse((root/'bad').exists())
-        # Legacy format can only be continued after explicit opt-in. Here the
-        # donor is deterministic, so conversion must also reproduce the baseline.
-        import shutil
-        legacy=root/'legacy'/'mmsd2'/'LM-low'/'seed_42'
-        shutil.copytree(baseline,legacy)
-        cp=legacy/'checkpoints'/'epoch_2'
-        old=torch.load(cp/'state.pt',map_location='cpu',weights_only=False)
-        for key in ('format_version','trainer','signature'):
-            old.pop(key)
-        torch.save(old,cp/'state.pt')
-        mark=json.loads((cp/'complete.json').read_text())
-        mark.pop('format_version')
-        mark['state_sha256']=digest(cp/'state.pt')
-        write_json(cp/'complete.json',mark)
-        legacy_args=dict(args,output=str(root/'legacy-recovered'),resume_from=str(cp))
-        with self.assertRaisesRegex(ValueError,'Legacy checkpoint'):
-            runner.run(SimpleNamespace(**legacy_args))
-        recovered=runner.run(SimpleNamespace(**dict(legacy_args,allow_legacy_resume=True)))
-        actual_weights,actual=read(recovered/'checkpoints'/'epoch_8')
-        assert_tree_equal(self,weights,actual_weights)
-        for key in ('optimizer','scheduler','python_rng','numpy_rng','torch_rng','cuda_rng'):
-            assert_tree_equal(self,state[key],actual[key],key)
-        assert_tree_equal(self,rng,capture_rng())

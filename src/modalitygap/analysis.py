@@ -92,8 +92,6 @@ def analyze(root, dataset, output, bootstrap_samples=2000):
     runs, raw = {}, {}
     evaluation_count = 0
     for path in sorted((Path(root)/dataset).glob('*/seed_*/metrics.csv')):
-        if path.parent.name.endswith('_pilot'):
-            continue
         with path.open() as f:
             rows = list(csv.DictReader(f))
         config,seed = path.parent.parent.name,int(path.parent.name.split('_')[1])
@@ -111,7 +109,7 @@ def analyze(root, dataset, output, bootstrap_samples=2000):
         runs[config,seed] = indexed
         raw[config,seed] = path.parent
     if not runs:
-        raise ValueError('No complete screening runs found')
+        raise ValueError('No complete full-experiment runs found')
     seeds = sorted({s for _,s in runs})
     pair_reports, bootstrap = [], {}
     for seed in seeds:

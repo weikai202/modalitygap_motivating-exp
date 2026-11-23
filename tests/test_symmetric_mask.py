@@ -3,7 +3,7 @@ import unittest
 import torch
 from transformers import Qwen2_5_VLForConditionalGeneration,RepetitionPenaltyLogitsProcessor
 import test_qwen
-from scripts.symmetric_mask import SymmetricMask,VisibleHistoryPenalty
+from modalitygap.symmetric_mask import SymmetricMask,VisibleHistoryPenalty
 
 
 class SymmetricMaskTests(unittest.TestCase):

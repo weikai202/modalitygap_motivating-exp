@@ -30,7 +30,7 @@ def finish(output,dataset,rows,provenance):
     write_json(output/'provenance.json',dict(dataset=dataset,**provenance,
         counts=dict(Counter(r['split'] for r in rows)),source_sha256=digest(output/'source.jsonl'),
         image_paths='relative to source.jsonl; move the export together with images',
-        sampling='No sampling. Official train/dev/test exported; training pool is selected later by campaign prepare.'))
+        sampling='No sampling. All official train/dev/test rows are exported; preparation only audits completeness and content duplicates.'))
 
 
 def mmsd2(annotations,output,images=None,parquet=None,revision=MMSD_REVISION):
