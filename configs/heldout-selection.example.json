@@ -1,0 +1,7 @@
+{
+  "locked_at": "REPLACE_WITH_ACTUAL_LOCK_TIMESTAMP",
+  "comparisons": [
+    {"run": "artifacts/mmsd2/L-low/seed_42", "config": "L-low", "epoch": 2},
+    {"run": "artifacts/mmsd2/L-low/seed_42", "config": "L-low", "epoch": 8}
+  ]
+}

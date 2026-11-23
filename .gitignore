@@ -1,0 +1,15 @@
+__pycache__/
+*.egg-info/
+.venv/
+artifacts/
+data/
+figures/
+*.pyc
+build/
+dist/
+
+.environment-setup.lock
+
+logs/
+selections/
+configs/experiment.json

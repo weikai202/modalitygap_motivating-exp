@@ -1,0 +1,510 @@
+{
+  "mmsd2": {
+    "purpose": {
+      "kind": "real-data small resource/metric sanity pilot",
+      "config": "L-low",
+      "training_seed": 42,
+      "pilot_steps": 8,
+      "full_screening": false,
+      "train_count": 64,
+      "dev_count": 32,
+      "test_used": false,
+      "note": "F1 on fixed dev subset is exploratory; no ranking-reversal or causal contribution claims"
+    },
+    "primary_metric": "macro_f1",
+    "metrics": [
+      {
+        "epoch": "0",
+        "condition": "full",
+        "variant": "full",
+        "seed": "42",
+        "config": "L-low",
+        "training_seconds": "0.0",
+        "validation_seconds": "15.241391086019576",
+        "macro_f1": "0.4126984126984127",
+        "micro_f1": "0.4782608695652174",
+        "invalid_rate": "0.5625",
+        "predicted_label_count": "0.4375",
+        "output_length": "4.75",
+        "truncation_rate": "0.0",
+        "per_label": "{\"not_sarcastic\": {\"precision\": 0.8333333333333334, \"recall\": 0.625, \"f1\": 0.7142857142857143}, \"sarcastic\": {\"precision\": 0.5, \"recall\": 0.0625, \"f1\": 0.1111111111111111}}",
+        "count": "32",
+        "accuracy": "0.34375",
+        "sarcastic_f1": "0.1111111111111111",
+        "score": "0.4126984126984127"
+      },
+      {
+        "epoch": "0",
+        "condition": "mask_image",
+        "variant": "mask_image",
+        "seed": "42",
+        "config": "L-low",
+        "training_seconds": "0.0",
+        "validation_seconds": "14.294253412052058",
+        "macro_f1": "0.13636363636363635",
+        "micro_f1": "0.15384615384615385",
+        "invalid_rate": "0.78125",
+        "predicted_label_count": "0.21875",
+        "output_length": "4.375",
+        "truncation_rate": "0.0",
+        "per_label": "{\"not_sarcastic\": {\"precision\": 0.5, \"recall\": 0.1875, \"f1\": 0.2727272727272727}, \"sarcastic\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}}",
+        "count": "32",
+        "accuracy": "0.09375",
+        "sarcastic_f1": "0.0",
+        "score": "0.13636363636363635"
+      },
+      {
+        "epoch": "0",
+        "condition": "mask_text",
+        "variant": "mask_text",
+        "seed": "42",
+        "config": "L-low",
+        "training_seconds": "0.0",
+        "validation_seconds": "6.090736647951417",
+        "macro_f1": "0.058823529411764705",
+        "micro_f1": "0.06060606060606061",
+        "invalid_rate": "0.96875",
+        "predicted_label_count": "0.03125",
+        "output_length": "1.1875",
+        "truncation_rate": "0.0",
+        "per_label": "{\"not_sarcastic\": {\"precision\": 1.0, \"recall\": 0.0625, \"f1\": 0.11764705882352941}, \"sarcastic\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}}",
+        "count": "32",
+        "accuracy": "0.03125",
+        "sarcastic_f1": "0.0",
+        "score": "0.058823529411764705"
+      },
+      {
+        "epoch": "1",
+        "condition": "full",
+        "variant": "full",
+        "seed": "42",
+        "config": "L-low",
+        "training_seconds": "31.072334754047915",
+        "validation_seconds": "15.139332784921862",
+        "macro_f1": "0.40038314176245215",
+        "micro_f1": "0.46808510638297873",
+        "invalid_rate": "0.53125",
+        "predicted_label_count": "0.46875",
+        "output_length": "4.8125",
+        "truncation_rate": "0.0",
+        "per_label": "{\"not_sarcastic\": {\"precision\": 0.7692307692307693, \"recall\": 0.625, \"f1\": 0.6896551724137931}, \"sarcastic\": {\"precision\": 0.5, \"recall\": 0.0625, \"f1\": 0.1111111111111111}}",
+        "count": "32",
+        "accuracy": "0.34375",
+        "sarcastic_f1": "0.1111111111111111",
+        "score": "0.40038314176245215"
+      },
+      {
+        "epoch": "1",
+        "condition": "mask_image",
+        "variant": "mask_image",
+        "seed": "42",
+        "config": "L-low",
+        "training_seconds": "31.072334754047915",
+        "validation_seconds": "14.224527021986432",
+        "macro_f1": "0.13636363636363635",
+        "micro_f1": "0.15384615384615385",
+        "invalid_rate": "0.78125",
+        "predicted_label_count": "0.21875",
+        "output_length": "4.375",
+        "truncation_rate": "0.0",
+        "per_label": "{\"not_sarcastic\": {\"precision\": 0.5, \"recall\": 0.1875, \"f1\": 0.2727272727272727}, \"sarcastic\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}}",
+        "count": "32",
+        "accuracy": "0.09375",
+        "sarcastic_f1": "0.0",
+        "score": "0.13636363636363635"
+      },
+      {
+        "epoch": "1",
+        "condition": "mask_text",
+        "variant": "mask_text",
+        "seed": "42",
+        "config": "L-low",
+        "training_seconds": "31.072334754047915",
+        "validation_seconds": "6.152339615975507",
+        "macro_f1": "0.058823529411764705",
+        "micro_f1": "0.06060606060606061",
+        "invalid_rate": "0.96875",
+        "predicted_label_count": "0.03125",
+        "output_length": "1.1875",
+        "truncation_rate": "0.0",
+        "per_label": "{\"not_sarcastic\": {\"precision\": 1.0, \"recall\": 0.0625, \"f1\": 0.11764705882352941}, \"sarcastic\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}}",
+        "count": "32",
+        "accuracy": "0.03125",
+        "sarcastic_f1": "0.0",
+        "score": "0.058823529411764705"
+      },
+      {
+        "epoch": "2",
+        "condition": "full",
+        "variant": "full",
+        "seed": "42",
+        "config": "L-low",
+        "training_seconds": "61.56210947793443",
+        "validation_seconds": "15.606824447982945",
+        "macro_f1": "0.7729166666666667",
+        "micro_f1": "0.7741935483870968",
+        "invalid_rate": "0.0625",
+        "predicted_label_count": "0.9375",
+        "output_length": "5.0",
+        "truncation_rate": "0.0",
+        "per_label": "{\"not_sarcastic\": {\"precision\": 0.8125, \"recall\": 0.8125, \"f1\": 0.8125}, \"sarcastic\": {\"precision\": 0.7857142857142857, \"recall\": 0.6875, \"f1\": 0.7333333333333333}}",
+        "count": "32",
+        "accuracy": "0.75",
+        "sarcastic_f1": "0.7333333333333333",
+        "score": "0.7729166666666667"
+      },
+      {
+        "epoch": "2",
+        "condition": "mask_image",
+        "variant": "mask_image",
+        "seed": "42",
+        "config": "L-low",
+        "training_seconds": "61.56210947793443",
+        "validation_seconds": "14.797168498043902",
+        "macro_f1": "0.5076923076923077",
+        "micro_f1": "0.53125",
+        "invalid_rate": "0.0",
+        "predicted_label_count": "1.0",
+        "output_length": "4.5625",
+        "truncation_rate": "0.0",
+        "per_label": "{\"not_sarcastic\": {\"precision\": 0.5555555555555556, \"recall\": 0.3125, \"f1\": 0.4}, \"sarcastic\": {\"precision\": 0.5217391304347826, \"recall\": 0.75, \"f1\": 0.6153846153846154}}",
+        "count": "32",
+        "accuracy": "0.53125",
+        "sarcastic_f1": "0.6153846153846154",
+        "score": "0.5076923076923077"
+      },
+      {
+        "epoch": "2",
+        "condition": "mask_text",
+        "variant": "mask_text",
+        "seed": "42",
+        "config": "L-low",
+        "training_seconds": "61.56210947793443",
+        "validation_seconds": "6.199761482072063",
+        "macro_f1": "0.058823529411764705",
+        "micro_f1": "0.06060606060606061",
+        "invalid_rate": "0.96875",
+        "predicted_label_count": "0.03125",
+        "output_length": "1.1875",
+        "truncation_rate": "0.0",
+        "per_label": "{\"not_sarcastic\": {\"precision\": 1.0, \"recall\": 0.0625, \"f1\": 0.11764705882352941}, \"sarcastic\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}}",
+        "count": "32",
+        "accuracy": "0.03125",
+        "sarcastic_f1": "0.0",
+        "score": "0.058823529411764705"
+      }
+    ],
+    "training": [
+      {
+        "epoch": 1,
+        "step": 4,
+        "seconds": 31.072334754047915,
+        "examples_per_second": 2.0597100445328613,
+        "mean_loss": 0.29778634500689805,
+        "mean_length": 299.25,
+        "max_length": 353,
+        "truncation_rate": 0.0,
+        "last_grad_norm": 2.3537349700927734,
+        "allocated_bytes": 8626683392,
+        "reserved_bytes": 9892265984
+      },
+      {
+        "epoch": 2,
+        "step": 8,
+        "seconds": 30.489774723886512,
+        "examples_per_second": 2.0990643774701514,
+        "mean_loss": 0.2674900823039934,
+        "mean_length": 299.25,
+        "max_length": 353,
+        "truncation_rate": 0.0,
+        "last_grad_norm": 2.001160144805908,
+        "allocated_bytes": 8655146496,
+        "reserved_bytes": 9892265984
+      }
+    ],
+    "final_diagnostics": {
+      "full": {
+        "final_score": 0.7729166666666667,
+        "final_invalid_rate": 0.0625,
+        "final_invalid_outputs": {
+          "sarcasm": 2
+        },
+        "generated_lengths": {
+          "4": 16,
+          "6": 16
+        }
+      },
+      "mask_image": {
+        "final_score": 0.5076923076923077,
+        "final_invalid_rate": 0.0,
+        "final_invalid_outputs": {},
+        "generated_lengths": {
+          "4": 23,
+          "6": 9
+        }
+      },
+      "mask_text": {
+        "final_score": 0.058823529411764705,
+        "final_invalid_rate": 0.96875,
+        "final_invalid_outputs": {
+          "": 30,
+          ":\n": 1
+        },
+        "generated_lengths": {
+          "1": 30,
+          "6": 1,
+          "2": 1
+        }
+      }
+    },
+    "provenance": "data/real-pilot/mmsd2/provenance.json"
+  },
+  "mmimdb": {
+    "purpose": {
+      "kind": "real-data small resource/metric sanity pilot",
+      "config": "L-low",
+      "training_seed": 42,
+      "pilot_steps": 8,
+      "full_screening": false,
+      "train_count": 63,
+      "dev_count": 32,
+      "test_used": false,
+      "note": "F1 on fixed dev subset is exploratory; no ranking-reversal or causal contribution claims"
+    },
+    "primary_metric": "micro_f1",
+    "metrics": [
+      {
+        "epoch": "0",
+        "condition": "full",
+        "variant": "full",
+        "seed": "42",
+        "config": "L-low",
+        "training_seconds": "0.0",
+        "validation_seconds": "15.803820371977054",
+        "macro_f1": "0.2680720245937637",
+        "micro_f1": "0.41818181818181815",
+        "invalid_rate": "0.0625",
+        "predicted_label_count": "0.96875",
+        "output_length": "5.0",
+        "truncation_rate": "0.0",
+        "per_label": "{\"Action\": {\"precision\": 1.0, \"recall\": 0.3333333333333333, \"f1\": 0.5}, \"Adventure\": {\"precision\": 1.0, \"recall\": 0.3333333333333333, \"f1\": 0.5}, \"Animation\": {\"precision\": 1.0, \"recall\": 1.0, \"f1\": 1.0}, \"Biography\": {\"precision\": 1.0, \"recall\": 0.5, \"f1\": 0.6666666666666666}, \"Comedy\": {\"precision\": 0.875, \"recall\": 0.7, \"f1\": 0.7777777777777778}, \"Crime\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Documentary\": {\"precision\": 0.42857142857142855, \"recall\": 1.0, \"f1\": 0.6}, \"Drama\": {\"precision\": 0.8333333333333334, \"recall\": 0.3125, \"f1\": 0.45454545454545453}, \"Family\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Fantasy\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Film-Noir\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"History\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Horror\": {\"precision\": 1.0, \"recall\": 0.3333333333333333, \"f1\": 0.5}, \"Music\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Musical\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Mystery\": {\"precision\": 1.0, \"recall\": 0.3333333333333333, \"f1\": 0.5}, \"Romance\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Sci-Fi\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Short\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Sport\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Thriller\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"War\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Western\": {\"precision\": 0.5, \"recall\": 1.0, \"f1\": 0.6666666666666666}}",
+        "count": "32",
+        "score": "0.41818181818181815"
+      },
+      {
+        "epoch": "0",
+        "condition": "mask_image",
+        "variant": "mask_image",
+        "seed": "42",
+        "config": "L-low",
+        "training_seconds": "0.0",
+        "validation_seconds": "16.255698967026547",
+        "macro_f1": "0.25262858766695084",
+        "micro_f1": "0.40350877192982454",
+        "invalid_rate": "0.03125",
+        "predicted_label_count": "1.09375",
+        "output_length": "5.3125",
+        "truncation_rate": "0.0",
+        "per_label": "{\"Action\": {\"precision\": 1.0, \"recall\": 0.3333333333333333, \"f1\": 0.5}, \"Adventure\": {\"precision\": 0.6666666666666666, \"recall\": 0.6666666666666666, \"f1\": 0.6666666666666666}, \"Animation\": {\"precision\": 1.0, \"recall\": 1.0, \"f1\": 1.0}, \"Biography\": {\"precision\": 0.25, \"recall\": 0.5, \"f1\": 0.3333333333333333}, \"Comedy\": {\"precision\": 0.7142857142857143, \"recall\": 0.5, \"f1\": 0.5882352941176471}, \"Crime\": {\"precision\": 1.0, \"recall\": 0.2, \"f1\": 0.3333333333333333}, \"Documentary\": {\"precision\": 0.42857142857142855, \"recall\": 1.0, \"f1\": 0.6}, \"Drama\": {\"precision\": 1.0, \"recall\": 0.25, \"f1\": 0.4}, \"Family\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Fantasy\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Film-Noir\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"History\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Horror\": {\"precision\": 0.6666666666666666, \"recall\": 0.6666666666666666, \"f1\": 0.6666666666666666}, \"Music\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Musical\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Mystery\": {\"precision\": 1.0, \"recall\": 0.3333333333333333, \"f1\": 0.5}, \"Romance\": {\"precision\": 0.5, \"recall\": 0.14285714285714285, \"f1\": 0.2222222222222222}, \"Sci-Fi\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Short\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Sport\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Thriller\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"War\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Western\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}}",
+        "count": "32",
+        "score": "0.40350877192982454"
+      },
+      {
+        "epoch": "0",
+        "condition": "mask_text",
+        "variant": "mask_text",
+        "seed": "42",
+        "config": "L-low",
+        "training_seconds": "0.0",
+        "validation_seconds": "6.264917989028618",
+        "macro_f1": "0.0",
+        "micro_f1": "0.0",
+        "invalid_rate": "1.0",
+        "predicted_label_count": "0.0",
+        "output_length": "1.09375",
+        "truncation_rate": "0.0",
+        "per_label": "{\"Action\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Adventure\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Animation\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Biography\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Comedy\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Crime\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Documentary\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Drama\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Family\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Fantasy\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Film-Noir\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"History\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Horror\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Music\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Musical\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Mystery\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Romance\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Sci-Fi\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Short\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Sport\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Thriller\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"War\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Western\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}}",
+        "count": "32",
+        "score": "0.0"
+      },
+      {
+        "epoch": "1",
+        "condition": "full",
+        "variant": "full",
+        "seed": "42",
+        "config": "L-low",
+        "training_seconds": "30.40659882617183",
+        "validation_seconds": "15.4905524229398",
+        "macro_f1": "0.2680720245937637",
+        "micro_f1": "0.41818181818181815",
+        "invalid_rate": "0.0625",
+        "predicted_label_count": "0.96875",
+        "output_length": "5.0",
+        "truncation_rate": "0.0",
+        "per_label": "{\"Action\": {\"precision\": 1.0, \"recall\": 0.3333333333333333, \"f1\": 0.5}, \"Adventure\": {\"precision\": 1.0, \"recall\": 0.3333333333333333, \"f1\": 0.5}, \"Animation\": {\"precision\": 1.0, \"recall\": 1.0, \"f1\": 1.0}, \"Biography\": {\"precision\": 1.0, \"recall\": 0.5, \"f1\": 0.6666666666666666}, \"Comedy\": {\"precision\": 0.875, \"recall\": 0.7, \"f1\": 0.7777777777777778}, \"Crime\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Documentary\": {\"precision\": 0.42857142857142855, \"recall\": 1.0, \"f1\": 0.6}, \"Drama\": {\"precision\": 0.8333333333333334, \"recall\": 0.3125, \"f1\": 0.45454545454545453}, \"Family\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Fantasy\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Film-Noir\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"History\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Horror\": {\"precision\": 1.0, \"recall\": 0.3333333333333333, \"f1\": 0.5}, \"Music\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Musical\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Mystery\": {\"precision\": 1.0, \"recall\": 0.3333333333333333, \"f1\": 0.5}, \"Romance\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Sci-Fi\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Short\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Sport\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Thriller\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"War\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Western\": {\"precision\": 0.5, \"recall\": 1.0, \"f1\": 0.6666666666666666}}",
+        "count": "32",
+        "score": "0.41818181818181815"
+      },
+      {
+        "epoch": "1",
+        "condition": "mask_image",
+        "variant": "mask_image",
+        "seed": "42",
+        "config": "L-low",
+        "training_seconds": "30.40659882617183",
+        "validation_seconds": "16.566099414951168",
+        "macro_f1": "0.23813583404376243",
+        "micro_f1": "0.3893805309734513",
+        "invalid_rate": "0.03125",
+        "predicted_label_count": "1.0625",
+        "output_length": "5.21875",
+        "truncation_rate": "0.0",
+        "per_label": "{\"Action\": {\"precision\": 1.0, \"recall\": 0.3333333333333333, \"f1\": 0.5}, \"Adventure\": {\"precision\": 0.6666666666666666, \"recall\": 0.6666666666666666, \"f1\": 0.6666666666666666}, \"Animation\": {\"precision\": 1.0, \"recall\": 1.0, \"f1\": 1.0}, \"Biography\": {\"precision\": 0.25, \"recall\": 0.5, \"f1\": 0.3333333333333333}, \"Comedy\": {\"precision\": 0.7142857142857143, \"recall\": 0.5, \"f1\": 0.5882352941176471}, \"Crime\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Documentary\": {\"precision\": 0.42857142857142855, \"recall\": 1.0, \"f1\": 0.6}, \"Drama\": {\"precision\": 1.0, \"recall\": 0.25, \"f1\": 0.4}, \"Family\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Fantasy\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Film-Noir\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"History\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Horror\": {\"precision\": 0.6666666666666666, \"recall\": 0.6666666666666666, \"f1\": 0.6666666666666666}, \"Music\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Musical\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Mystery\": {\"precision\": 1.0, \"recall\": 0.3333333333333333, \"f1\": 0.5}, \"Romance\": {\"precision\": 0.5, \"recall\": 0.14285714285714285, \"f1\": 0.2222222222222222}, \"Sci-Fi\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Short\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Sport\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Thriller\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"War\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Western\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}}",
+        "count": "32",
+        "score": "0.3893805309734513"
+      },
+      {
+        "epoch": "1",
+        "condition": "mask_text",
+        "variant": "mask_text",
+        "seed": "42",
+        "config": "L-low",
+        "training_seconds": "30.40659882617183",
+        "validation_seconds": "6.323595570051111",
+        "macro_f1": "0.0",
+        "micro_f1": "0.0",
+        "invalid_rate": "1.0",
+        "predicted_label_count": "0.0",
+        "output_length": "1.0625",
+        "truncation_rate": "0.0",
+        "per_label": "{\"Action\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Adventure\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Animation\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Biography\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Comedy\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Crime\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Documentary\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Drama\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Family\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Fantasy\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Film-Noir\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"History\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Horror\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Music\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Musical\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Mystery\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Romance\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Sci-Fi\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Short\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Sport\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Thriller\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"War\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Western\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}}",
+        "count": "32",
+        "score": "0.0"
+      },
+      {
+        "epoch": "2",
+        "condition": "full",
+        "variant": "full",
+        "seed": "42",
+        "config": "L-low",
+        "training_seconds": "60.15706057928037",
+        "validation_seconds": "15.789556744974107",
+        "macro_f1": "0.2680720245937637",
+        "micro_f1": "0.41818181818181815",
+        "invalid_rate": "0.0625",
+        "predicted_label_count": "0.96875",
+        "output_length": "5.0",
+        "truncation_rate": "0.0",
+        "per_label": "{\"Action\": {\"precision\": 1.0, \"recall\": 0.3333333333333333, \"f1\": 0.5}, \"Adventure\": {\"precision\": 1.0, \"recall\": 0.3333333333333333, \"f1\": 0.5}, \"Animation\": {\"precision\": 1.0, \"recall\": 1.0, \"f1\": 1.0}, \"Biography\": {\"precision\": 1.0, \"recall\": 0.5, \"f1\": 0.6666666666666666}, \"Comedy\": {\"precision\": 0.875, \"recall\": 0.7, \"f1\": 0.7777777777777778}, \"Crime\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Documentary\": {\"precision\": 0.42857142857142855, \"recall\": 1.0, \"f1\": 0.6}, \"Drama\": {\"precision\": 0.8333333333333334, \"recall\": 0.3125, \"f1\": 0.45454545454545453}, \"Family\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Fantasy\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Film-Noir\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"History\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Horror\": {\"precision\": 1.0, \"recall\": 0.3333333333333333, \"f1\": 0.5}, \"Music\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Musical\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Mystery\": {\"precision\": 1.0, \"recall\": 0.3333333333333333, \"f1\": 0.5}, \"Romance\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Sci-Fi\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Short\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Sport\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Thriller\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"War\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Western\": {\"precision\": 0.5, \"recall\": 1.0, \"f1\": 0.6666666666666666}}",
+        "count": "32",
+        "score": "0.41818181818181815"
+      },
+      {
+        "epoch": "2",
+        "condition": "mask_image",
+        "variant": "mask_image",
+        "seed": "42",
+        "config": "L-low",
+        "training_seconds": "60.15706057928037",
+        "validation_seconds": "16.27310704800766",
+        "macro_f1": "0.23813583404376243",
+        "micro_f1": "0.3893805309734513",
+        "invalid_rate": "0.03125",
+        "predicted_label_count": "1.0625",
+        "output_length": "5.21875",
+        "truncation_rate": "0.0",
+        "per_label": "{\"Action\": {\"precision\": 1.0, \"recall\": 0.3333333333333333, \"f1\": 0.5}, \"Adventure\": {\"precision\": 0.6666666666666666, \"recall\": 0.6666666666666666, \"f1\": 0.6666666666666666}, \"Animation\": {\"precision\": 1.0, \"recall\": 1.0, \"f1\": 1.0}, \"Biography\": {\"precision\": 0.25, \"recall\": 0.5, \"f1\": 0.3333333333333333}, \"Comedy\": {\"precision\": 0.7142857142857143, \"recall\": 0.5, \"f1\": 0.5882352941176471}, \"Crime\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Documentary\": {\"precision\": 0.42857142857142855, \"recall\": 1.0, \"f1\": 0.6}, \"Drama\": {\"precision\": 1.0, \"recall\": 0.25, \"f1\": 0.4}, \"Family\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Fantasy\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Film-Noir\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"History\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Horror\": {\"precision\": 0.6666666666666666, \"recall\": 0.6666666666666666, \"f1\": 0.6666666666666666}, \"Music\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Musical\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Mystery\": {\"precision\": 1.0, \"recall\": 0.3333333333333333, \"f1\": 0.5}, \"Romance\": {\"precision\": 0.5, \"recall\": 0.14285714285714285, \"f1\": 0.2222222222222222}, \"Sci-Fi\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Short\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Sport\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Thriller\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"War\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Western\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}}",
+        "count": "32",
+        "score": "0.3893805309734513"
+      },
+      {
+        "epoch": "2",
+        "condition": "mask_text",
+        "variant": "mask_text",
+        "seed": "42",
+        "config": "L-low",
+        "training_seconds": "60.15706057928037",
+        "validation_seconds": "6.458555904100649",
+        "macro_f1": "0.0",
+        "micro_f1": "0.0",
+        "invalid_rate": "1.0",
+        "predicted_label_count": "0.0",
+        "output_length": "1.0625",
+        "truncation_rate": "0.0",
+        "per_label": "{\"Action\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Adventure\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Animation\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Biography\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Comedy\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Crime\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Documentary\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Drama\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Family\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Fantasy\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Film-Noir\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"History\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Horror\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Music\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Musical\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Mystery\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Romance\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Sci-Fi\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Short\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Sport\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Thriller\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"War\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}, \"Western\": {\"precision\": 0.0, \"recall\": 0.0, \"f1\": 0.0}}",
+        "count": "32",
+        "score": "0.0"
+      }
+    ],
+    "training": [
+      {
+        "epoch": 1,
+        "step": 4,
+        "seconds": 30.40659882617183,
+        "examples_per_second": 2.071918676605622,
+        "mean_loss": 0.4648099702502054,
+        "mean_length": 469.46031746031747,
+        "max_length": 713,
+        "truncation_rate": 0.0,
+        "last_grad_norm": 0.6233795881271362,
+        "allocated_bytes": 9451602432,
+        "reserved_bytes": 11683233792
+      },
+      {
+        "epoch": 2,
+        "step": 8,
+        "seconds": 29.75046175310854,
+        "examples_per_second": 2.117614191094608,
+        "mean_loss": 0.4604438279592802,
+        "mean_length": 469.46031746031747,
+        "max_length": 713,
+        "truncation_rate": 0.0,
+        "last_grad_norm": 0.5288367867469788,
+        "allocated_bytes": 9451602432,
+        "reserved_bytes": 11683233792
+      }
+    ],
+    "final_diagnostics": {
+      "full": {
+        "final_score": 0.41818181818181815,
+        "final_invalid_rate": 0.0625,
+        "final_invalid_outputs": {
+          "[\"Science-Fiction\"]": 2
+        },
+        "generated_lengths": {
+          "5": 25,
+          "4": 4,
+          "6": 2,
+          "7": 1
+        }
+      },
+      "mask_image": {
+        "final_score": 0.3893805309734513,
+        "final_invalid_rate": 0.03125,
+        "final_invalid_outputs": {
+          "[\"Science-Fiction\"]": 1
+        },
+        "generated_lengths": {
+          "5": 24,
+          "4": 4,
+          "6": 1,
+          "9": 2,
+          "7": 1
+        }
+      },
+      "mask_text": {
+        "final_score": 0.0,
+        "final_invalid_rate": 1.0,
+        "final_invalid_outputs": {
+          "": 31,
+          "Seven Seven": 1
+        },
+        "generated_lengths": {
+          "1": 31,
+          "3": 1
+        }
+      }
+    },
+    "provenance": "data/real-pilot/mmimdb/provenance.json"
+  }
+}

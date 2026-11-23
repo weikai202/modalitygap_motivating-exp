@@ -1,0 +1,64 @@
+{
+  "status": "passed",
+  "examples": 1504,
+  "files": 56,
+  "original_pilot_reproduction": {
+    "mmsd2/epoch0/full": {
+      "count": 32,
+      "all_tokens_exact": true
+    },
+    "mmsd2/epoch0/mask_image": {
+      "count": 32,
+      "all_tokens_exact": true
+    },
+    "mmsd2/epoch0/mask_text": {
+      "count": 32,
+      "all_tokens_exact": true
+    },
+    "mmsd2/epoch2/full": {
+      "count": 32,
+      "all_tokens_exact": true
+    },
+    "mmsd2/epoch2/mask_image": {
+      "count": 32,
+      "all_tokens_exact": true
+    },
+    "mmsd2/epoch2/mask_text": {
+      "count": 32,
+      "all_tokens_exact": true
+    },
+    "mmimdb/epoch0/full": {
+      "count": 32,
+      "all_tokens_exact": true
+    },
+    "mmimdb/epoch0/mask_image": {
+      "count": 32,
+      "all_tokens_exact": true
+    },
+    "mmimdb/epoch0/mask_text": {
+      "count": 32,
+      "all_tokens_exact": true
+    },
+    "mmimdb/epoch2/full": {
+      "count": 32,
+      "all_tokens_exact": true
+    },
+    "mmimdb/epoch2/mask_image": {
+      "count": 32,
+      "all_tokens_exact": true
+    },
+    "mmimdb/epoch2/mask_text": {
+      "count": 32,
+      "all_tokens_exact": true
+    }
+  },
+  "all_protected_embeddings_identical": true,
+  "all_first_generated_tokens_match_processed_argmax": true,
+  "no_self_shuffle_pairs": true,
+  "diagnostic_source_sha256": "69e3f1f03b74ecf57bfa7bfb42bd51698e151fba9da24047b1357d139cb5cbca",
+  "instrumentation_tests": {
+    "passed": 2,
+    "log": "artifacts/mask-diagnostic-instrumentation-tests.log",
+    "log_sha256": "efb8100ed2d833fae52f8b8532025d34462e2c80f6026be6fc27d288bc44b3fb"
+  }
+}

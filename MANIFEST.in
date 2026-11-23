@@ -1,0 +1,6 @@
+include README.md pyproject.toml requirements-cu128.lock requirements-cpu.lock requirements-data.lock
+recursive-include docs *.md *.json
+recursive-include scripts *.py *.sh
+recursive-include tests *.py
+recursive-include configs *.json
+recursive-include .github/workflows *.yml
