@@ -68,8 +68,8 @@ def read(path):
     weights = torch.load(path/'trainable.pt', map_location='cpu', weights_only=True)
     # Local training states contain NumPy RNG objects as well as tensors.
     state = torch.load(path/'state.pt', map_location='cpu', weights_only=False)
-    version = state.get('format_version',1)
-    if version not in (1,2) or complete.get('format_version',1) != version:
+    version = state.get('format_version')
+    if version != 2 or complete.get('format_version') != version:
         raise ValueError('Unsupported or inconsistent checkpoint format')
     if (state['epoch'], state['step']) != (complete['epoch'], complete['step']):
         raise ValueError('Checkpoint completion marker disagrees with saved state')

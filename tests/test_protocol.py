@@ -95,7 +95,7 @@ class ProtocolTests(unittest.TestCase):
 
 
 class DataTests(unittest.TestCase):
-    def test_stratified_pools_are_reproducible_and_report_actual_size(self):
+    def test_all_training_examples_are_kept_without_subsampling(self):
         from PIL import Image
         from modalitygap.data import prepare
         from modalitygap.protocol import read_jsonl
@@ -112,15 +112,17 @@ class DataTests(unittest.TestCase):
                 source=root/f'{dataset}.jsonl'
                 write_jsonl(source,rows)
                 for suffix in ('a','b'):
-                    prepare(source,root/f'{dataset}-{suffix}',dataset,'fixture',pool_size=10)
+                    prepare(source,root/f'{dataset}-{suffix}',dataset,'fixture')
                 a,b=(root/f'{dataset}-{s}' for s in ('a','b'))
                 self.assertEqual(read_jsonl(a/'train.jsonl'),read_jsonl(b/'train.jsonl'))
                 meta=json.loads((a/'manifest.json').read_text())
                 self.assertEqual(meta['pool_size'],meta['counts']['train'])
                 self.assertEqual(meta['counts']['dev'],1)
                 self.assertEqual(meta['counts']['test'],1)
+                self.assertEqual(meta['counts']['train'],30)
+                with self.assertRaises(ValueError):prepare(source,root/'subset',dataset,'fixture',pool_size=10)
                 if dataset=='mmsd2':
-                    self.assertEqual(meta['label_counts']['train'],{'not_sarcastic':5,'sarcastic':5})
+                    self.assertEqual(meta['label_counts']['train'],{'not_sarcastic':15,'sarcastic':15})
 
     def test_freeze_filter_overlap_and_hash(self):
         from PIL import Image
@@ -144,6 +146,11 @@ class DataTests(unittest.TestCase):
             meta = verified_data(p/'manifest','mmsd2')
             self.assertEqual(meta['counts'],dict(train=2,dev=1,test=1))
             self.assertEqual(len(meta['excluded']),2)
+            changed=dict(meta,requested_pool_size=2)
+            from modalitygap.protocol import write_json
+            write_json(p/'manifest/manifest.json',changed)
+            with self.assertRaisesRegex(ValueError,'every retained'):verified_data(p/'manifest','mmsd2')
+            write_json(p/'manifest/manifest.json',meta)
             with self.assertRaises(ValueError):
                 prepare(p/'source.jsonl',p/'manifest','mmsd2','author-sha')
             with (p/'manifest'/'dev.jsonl').open('a') as f:

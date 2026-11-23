@@ -18,7 +18,7 @@ def main():
             for seed in a.seeds:
                 run=cfg['workspace']/'runs'/name/config/f'seed_{seed}'
                 if not complete_run(run):raise ValueError(f'Incomplete run: {run}')
-                verify_run_config(cfg,name,config,seed,run,False)
+                verify_run_config(cfg,name,config,seed,run)
                 for epoch in (2,8):
                     verify_checkpoint(run/'checkpoints'/f'epoch_{epoch}')
                     comparisons.append(dict(run=str(run),config=config,epoch=epoch))

@@ -63,7 +63,7 @@ class Encoder:
         max_generation = generation_limit(dataset)
         self.target_budget = max(len(tok.encode(t + tok.eos_token, add_special_tokens=False)) for t in longest)
         if self.target_budget > max_generation:
-            raise ValueError('Longest canonical target exceeds fixed generation budget; revise protocol before screening')
+            raise ValueError('Longest canonical target exceeds fixed generation budget; revise protocol before full-experiment')
 
     def __call__(self, row, training=False):
         import torch
@@ -107,86 +107,28 @@ class Encoder:
 
 
 
-class Intervention:
-    """Hook the language decoder input AFTER Qwen assembles merged visual embeddings.
-
-    Decoder cache positions distinguish prefill from subsequent generation tokens.
-    No external inputs_embeds generation shortcut is used.
-    """
-    def __init__(self, model, stats=None):
-        self.stats, self.state, self.observed, self.logs = stats, None, {}, []
-        self.image_token_id = getattr(getattr(model, 'config', None), 'image_token_id', None)
-        # Resolve exactly one decoder, including PEFT's transparent wrapper.
-        decoders = [m for n, m in model.named_modules() if n.endswith('language_model')]
-        if len(decoders) != 1:
-            raise RuntimeError('Expected one Qwen language decoder')
-        self.handle = decoders[0].register_forward_pre_hook(self._hook, with_kwargs=True)
+class MomentCapture:
+    """Observe assembled image/body embeddings without changing model inputs."""
+    def __init__(self, model):
+        self.state=None;self.observed={};self.image_token_id=model.config.image_token_id
+        decoders=[m for n,m in model.named_modules() if n.endswith('language_model')]
+        if len(decoders)!=1:raise ValueError('Expected one Qwen language decoder')
+        self.handle=decoders[0].register_forward_pre_hook(self._hook,with_kwargs=True)
 
     @contextmanager
-    def use(self, row, inputs, positions, condition='full', seed=2026, scale=0.05, capture=False):
-        if condition not in ('full', 'mask_image', 'mask_text') or scale < 0:
-            raise ValueError('Invalid intervention condition or negative noise scale')
-        if inputs['input_ids'].shape[0] != 1:
-            raise ValueError('The fixed validation protocol requires batch size 1')
-        if len(set(positions)) != len(positions) or any(i < 0 or i >= inputs['input_ids'].shape[1] for i in positions):
-            raise ValueError('Invalid body token positions')
-        if self.state is not None:
-            raise RuntimeError('Intervention context cannot be nested')
-        self.state = dict(id=row['id'], ids=inputs['input_ids'], positions=positions,
-                          condition=condition, seed=seed, scale=scale, capture=capture)
-        self.observed = {}
-        try:
-            yield self
-        finally:
-            self.state = None
+    def use(self, inputs, positions):
+        if self.state is not None:raise ValueError('Nested moment capture')
+        self.state=(inputs['input_ids'],positions);self.observed={}
+        try:yield self
+        finally:self.state=None
 
     def _hook(self, module, args, kwargs):
-        import torch
-        s = self.state
-        if s is None:
-            return
-        x = kwargs.get('inputs_embeds')
-        if x is None:
-            raise RuntimeError('Qwen decoder no longer receives assembled inputs_embeds')
-        cache_position = kwargs.get('cache_position')
-        if cache_position is not None and cache_position.numel() and cache_position[0].item() > 0:
-            return
-        if x.shape[1] != s['ids'].shape[1]:
-            raise RuntimeError('Unexpected prefill reconstruction / missing cache positions')
-        image_id = self.image_token_id or getattr(module.config, 'image_token_id', 151655)
-        spans = dict(image=(s['ids'][0] == image_id).nonzero().flatten().tolist(), text=s['positions'])
-        if not spans['image']:
-            raise RuntimeError('No expanded image content tokens')
-        if set(spans['image']) & set(spans['text']):
-            raise ValueError('Body positions overlap protected image positions')
-        if s['capture']:
-            self.observed = {k:x[0, v].detach().float().cpu() for k,v in spans.items()}
-        if s['condition']=='full':
-            return
-        modality = {'mask_image':'image', 'mask_text':'text'}[s['condition']]
-        positions = spans[modality]
-        if not positions:
-            raise RuntimeError('Cannot mask an empty body')
-        stat = self.stats[modality]
-        mean = stat['mean'].float().cpu()
-        std = stat['std'].float().cpu()
-        if mean.shape != (x.shape[-1],) or std.shape != mean.shape or not torch.isfinite(mean).all() or not torch.isfinite(std).all() or (std < 0).any():
-            raise ValueError('Malformed frozen masking statistics')
-        replacements = []
-        for pos in positions:
-            key = f'{s["seed"]}:{s["id"]}:{modality}:{pos}'.encode()
-            seed = int.from_bytes(hashlib.sha256(key).digest()[:8], 'big') % (2**63-1)
-            generator = torch.Generator(device='cpu').manual_seed(seed)
-            noise = torch.randn(mean.shape, generator=generator)
-            replacements.append(mean + s['scale']*std*noise)
-        changed = x.clone()
-        changed[0, positions] = torch.stack(replacements).to(device=x.device, dtype=x.dtype)
-        self.logs.append(dict(id=s['id'], modality=modality, condition=s['condition'], noise_seed=s['seed'], noise_scale=s['scale'], shape=list(x.shape),
-                              positions=positions, original_norm=x[0, positions].float().norm(dim=-1).mean().item(),
-                              replacement_norm=changed[0, positions].float().norm(dim=-1).mean().item(),
-                              location='model.language_model prefill inputs_embeds'))
-        kwargs['inputs_embeds'] = changed
-        return args, kwargs
+        if self.state is None:return
+        ids,body=self.state;x=kwargs['inputs_embeds']
+        if ids.shape[0]!=1 or x.shape[1]!=ids.shape[1]:raise ValueError('Expected single-example prefill capture')
+        images=(ids[0]==self.image_token_id).nonzero().flatten().tolist()
+        if not images or not body or set(images)&set(body):raise ValueError('Invalid content spans')
+        self.observed={name:x[0,positions].detach().float().cpu() for name,positions in [('image',images),('text',body)]}
 
     def close(self):
         self.handle.remove()

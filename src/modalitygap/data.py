@@ -1,4 +1,4 @@
-"""Normalize explicit source exports, audit, and freeze screening manifests."""
+"""Normalize explicit source exports, audit, and freeze full-experiment manifests."""
 import hashlib
 import json
 import random
@@ -8,10 +8,10 @@ from pathlib import Path
 from .protocol import LABELS, SINGLE_LABEL, digest, read_jsonl, write_json, write_jsonl
 
 
-def prepare(source, output, dataset, revision, pool_size=6000, seed=42, overlap_policy='error'):
+def prepare(source, output, dataset, revision, pool_size='all', seed=42, overlap_policy='error'):
     from PIL import Image
-    if dataset not in LABELS or (pool_size != 'all' and (type(pool_size) is not int or pool_size <= 0)):
-        raise ValueError('Unknown dataset or nonpositive training pool size')
+    if dataset not in LABELS or pool_size!='all':
+        raise ValueError('Full experiments require all retained training examples')
     if overlap_policy not in ('error','prefer-heldout'):
         raise ValueError('Unknown overlap policy')
     source, output = Path(source).resolve(), Path(output)
@@ -63,7 +63,7 @@ def prepare(source, output, dataset, revision, pool_size=6000, seed=42, overlap_
                   for kind, values in hashes.items()}
     cross = {kind: [v for v in groups if len({r['split'] for r in v})>1]
              for kind, groups in duplicates.items()}
-    # Audit before any training-pool sampling. Keep complete duplicate components
+    # Keep complete duplicate components without training-pool sampling.
     # only in their highest-priority official split; never move or relabel rows.
     overlap_excluded=[]
     if any(cross.values()) and overlap_policy=='error':
@@ -96,23 +96,6 @@ def prepare(source, output, dataset, revision, pool_size=6000, seed=42, overlap_
     train = sorted((r for r in complete if r['split']=='train'), key=lambda r: r['id'])
     if not train or not any(r['split']=='dev' for r in complete):
         raise ValueError('Nonempty train and development splits are required')
-    n = len(train) if pool_size=='all' else min(pool_size, len(train))
-    if n < len(train):
-        if dataset in SINGLE_LABEL:
-            rng = random.Random(seed)
-            groups = [[r for r in train if r['labels']==[label]] for label in LABELS[dataset]]
-            counts = [n*len(g)/len(train) for g in groups]
-            sizes = [int(x) for x in counts]
-            for i in sorted(range(len(groups)), key=lambda i: counts[i]-sizes[i], reverse=True)[:n-sum(sizes)]:
-                sizes[i] += 1
-            train = [r for group, size in zip(groups, sizes) for r in rng.sample(group, size)]
-        else:
-            import numpy as np
-            from iterstrat.ml_stratifiers import MultilabelStratifiedShuffleSplit
-            y = np.array([[int(label in r['labels']) for label in LABELS[dataset]] for r in train])
-            indexes, _ = next(MultilabelStratifiedShuffleSplit(n_splits=1, train_size=n, test_size=len(train)-n,
-                                                              random_state=seed).split(y, y))
-            train = [train[int(i)] for i in indexes]
     splits = {s: sorted(train if s=='train' else [r for r in complete if r['split']==s], key=lambda r:r['id'])
               for s in ('train', 'dev', 'test')}
     for split, items in splits.items():

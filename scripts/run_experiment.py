@@ -17,8 +17,7 @@ import sys
 from modalitygap.protocol import CONFIGS, CONDITIONS, DEFAULTS, MODEL_REVISION, LABELS, digest
 
 REPO = Path(__file__).resolve().parents[1]
-PILOTS = ('L-low', 'M-low', 'LM-low')
-STAGES = ('all', 'prepare', 'stats', 'pilot', 'screen', 'analyze')
+STAGES = ('all', 'prepare', 'stats', 'train', 'analyze')
 
 
 def timestamp():
@@ -45,7 +44,7 @@ def load_config(path):
     path = Path(path).resolve()
     cfg = read_json(path)
     allowed = {'workspace','cache_dir','model_revision','datasets','configs','seeds',
-               'stats_samples','pilot_steps','checkpoint_every_steps','masking_method','pool_size','overlap_policy','keep_step_checkpoints'}
+               'stats_samples','checkpoint_every_steps','masking_method','pool_size','overlap_policy','keep_step_checkpoints'}
     if not isinstance(cfg, dict) or set(cfg)-allowed:
         raise ValueError('Configuration must be an object with only documented keys')
     def resolve(value):
@@ -59,7 +58,7 @@ def load_config(path):
         raise ValueError('model_revision must be a full 40-character commit SHA')
     datasets = cfg.get('datasets')
     if not isinstance(datasets,dict) or not datasets or set(datasets)-set(LABELS):
-        raise ValueError('datasets must contain supported task names: mmsd2, mmimdb, newsclippings, crisismmd, hatefulmemes')
+        raise ValueError('datasets must contain supported task names: mmsd2 and mmimdb')
     prepared = {}
     for name, entry in datasets.items():
         if not isinstance(entry,dict) or set(entry)!={'source','source_revision'}:
@@ -72,20 +71,22 @@ def load_config(path):
             raise ValueError('Keep original source JSONL/images outside the generated workspace')
         prepared[name] = dict(source=source, source_revision=description)
     configs = cfg.get('configs',list(CONFIGS))
-    seeds = cfg.get('seeds',[42])
+    seeds = cfg.get('seeds',[42,43,44])
     if not isinstance(configs,list) or not configs or any(not isinstance(x,str) or x not in CONFIGS for x in configs) or len(set(configs))!=len(configs):
-        raise ValueError('configs must be a nonempty unique subset of the six candidates')
+        raise ValueError('configs must list each of the six candidates exactly once')
     if not isinstance(seeds,list) or not seeds or any(type(x)!=int or x not in (42,43,44) for x in seeds) or len(set(seeds))!=len(seeds):
-        raise ValueError('seeds must be a nonempty unique subset of 42,43,44')
-    values = {k:cfg.get(k,v) for k,v in dict(stats_samples=256,pilot_steps=4,checkpoint_every_steps=50,keep_step_checkpoints=0).items()}
-    if any(type(v)!=int for v in values.values()) or values['stats_samples']<=0 or not 4<=values['pilot_steps']<=100 or values['checkpoint_every_steps']<0 or values['keep_step_checkpoints']<0:
-        raise ValueError('stats_samples > 0, pilot_steps 4..100, checkpoint_every_steps >= 0 are required')
-    pool=cfg.get('pool_size',6000)
-    if pool!='all' and (type(pool) is not int or pool<=0):raise ValueError('pool_size must be positive integer or all')
-    overlap=cfg.get('overlap_policy','error')
+        raise ValueError('seeds must list 42,43,44 exactly once')
+    if set(configs)!=set(CONFIGS) or set(seeds)!={42,43,44}:
+        raise ValueError('Full experiments require all six configurations and seeds 42,43,44')
+    values={k:cfg.get(k,v) for k,v in dict(stats_samples=256,checkpoint_every_steps=50,keep_step_checkpoints=2).items()}
+    if any(type(v) is not int for v in values.values()) or values['stats_samples']<=0 or values['checkpoint_every_steps']<0 or values['keep_step_checkpoints']<0:
+        raise ValueError('Invalid statistics/checkpoint settings')
+    pool=cfg.get('pool_size','all')
+    if pool!='all':raise ValueError('Full experiments require pool_size=all')
+    overlap=cfg.get('overlap_policy','prefer-heldout')
     if overlap not in ('error','prefer-heldout'):raise ValueError('Unknown overlap_policy')
-    method=cfg.get('masking_method','mean-noise-v1')
-    if method not in ('mean-noise-v1','symmetric-attention-v2'):raise ValueError('Unknown masking_method')
+    method=cfg.get('masking_method','symmetric-attention-v2')
+    if method!='symmetric-attention-v2':raise ValueError('Only symmetric-attention-v2 is supported')
     return dict(pool_size=pool,overlap_policy=overlap,masking_method=method,config_file=path,workspace=workspace,cache_dir=cache,model_revision=revision,
                 datasets=prepared,configs=configs,seeds=seeds,**values)
 
@@ -113,54 +114,35 @@ def common(cfg,dataset):
             '--revision',cfg['model_revision'],'--cache-dir',str(cfg['cache_dir'])]
 
 
-def train_command(cfg,dataset,config,seed,pilot=False):
-    command = cli('run',*common(cfg,dataset),'--stats',cfg['workspace']/'stats'/f'{dataset}.pt',
-        '--config',config,'--seed',seed,'--output',cfg['workspace']/('pilots' if pilot else 'runs'),
+def train_command(cfg,dataset,config,seed):
+    return cli('run',*common(cfg,dataset),'--stats',cfg['workspace']/'stats'/f'{dataset}.pt',
+        '--config',config,'--seed',seed,'--output',cfg['workspace']/'runs',
         '--code-revision','core-sha256:'+hashlib.sha256(json.dumps(core_hashes(),sort_keys=True).encode()).hexdigest(),
         '--checkpoint-every-steps',cfg['checkpoint_every_steps'],'--keep-step-checkpoints',cfg['keep_step_checkpoints'],
-        '--masking-method',cfg.get('masking_method','mean-noise-v1'))
-    if pilot:
-        command += ['--pilot-steps',str(cfg['pilot_steps'])]
-    return command
-
-
-def pilot_configs(cfg):
-    scopes={CONFIGS[c]['scope'] for c in cfg['configs']}
-    return [c for c in PILOTS if CONFIGS[c]['scope'] in scopes]
+        '--masking-method','symmetric-attention-v2')
 
 
 def preview(cfg,stage,resume,stop):
     print('DRY RUN: no files changed, no commands executed.')
     print('Workspace:',cfg['workspace'])
-    print('Paths in JSON are relative to:',cfg['config_file'].parent)
-    print('Completed work is skipped only after integrity checks with --resume.')
-    datasets = cfg['datasets']
-    if stage in ('all','prepare','stats','pilot','screen'):
-        for name,entry in datasets.items():
+    if stage in ('all','prepare','stats','train'):
+        for name,entry in cfg['datasets'].items():
             print(shlex.join(cli('prepare','--dataset',name,'--source',entry['source'],
                 '--source-revision',entry['source_revision'],'--output',cfg['workspace']/'manifests'/name,
-                '--pool-size',cfg['pool_size'],'--overlap-policy',cfg['overlap_policy'])))
-    if stage in ('all','stats','pilot','screen'):
+                '--overlap-policy',cfg['overlap_policy'])))
+    if stage in ('all','stats','train'):
         print(shlex.join([sys.executable,str(REPO/'scripts/fetch_model.py'),'--cache',str(cfg['cache_dir']),'--revision',cfg['model_revision']]))
-        for name in datasets:
-            print(shlex.join(cli('stats',*common(cfg,name),'--samples',cfg['stats_samples'],
-                '--output',cfg['workspace']/'stats'/f'{name}.pt')))
-    if stage in ('all','pilot'):
-        for name in datasets:
-            for config in pilot_configs(cfg):
-                print(shlex.join(train_command(cfg,name,config,42,pilot=True)))
-    if stage in ('all','screen'):
-        for name in datasets:
+        for name in cfg['datasets']:
+            print(shlex.join(cli('stats',*common(cfg,name),'--samples',cfg['stats_samples'],'--output',cfg['workspace']/'stats'/f'{name}.pt')))
+    if stage in ('all','train'):
+        for name in cfg['datasets']:
             for config in cfg['configs']:
                 for seed in cfg['seeds']:
                     command=train_command(cfg,name,config,seed)
-                    if resume:
-                        print('# Existing incomplete jobs add --resume-from latest; completed jobs are skipped.')
-                    if stop is not None:
-                        command += ['--stop-after-steps',str(stop)]
+                    if stop is not None:command+=['--stop-after-steps',str(stop)]
                     print(shlex.join(command))
     if stage in ('all','analyze'):
-        for name in datasets:
+        for name in cfg['datasets']:
             print(shlex.join(cli('analyze','--root',cfg['workspace']/'runs','--dataset',name,
                 '--output',cfg['workspace']/'figures','--bootstrap-samples',2000)))
 
@@ -171,7 +153,7 @@ def manifest_valid(cfg,name):
     source=cfg['datasets'][name]
     if meta['dataset']!=name or meta['source_sha256']!=digest(source['source']) or meta['source_revision']!=source['source_revision']:
         raise ValueError(f'{name}: source differs from the frozen manifest')
-    if meta.get('requested_pool_size',6000)!=cfg['pool_size'] or meta.get('overlap_policy','error')!=cfg['overlap_policy']:
+    if meta.get('requested_pool_size')!=cfg['pool_size'] or meta.get('overlap_policy','error')!=cfg['overlap_policy']:
         raise ValueError(f'{name}: pool or overlap policy differs from frozen manifest')
     for split,sha in meta['split_hashes'].items():
         if digest(folder/f'{split}.jsonl')!=sha:
@@ -204,10 +186,9 @@ def verify_checkpoint(path):
     return marker
 
 
-def verify_run_config(cfg,name,config,seed,directory,pilot):
+def verify_run_config(cfg,name,config,seed,directory):
     saved=read_json(directory/'config.json')
-    expected=dict(masking_method=cfg.get('masking_method','mean-noise-v1'),**DEFAULTS,**CONFIGS[config],dataset=name,seed=seed,revision=cfg['model_revision'],
-        pilot_steps=cfg['pilot_steps'] if pilot else 0,
+    expected=dict(masking_method=cfg.get('masking_method','symmetric-attention-v2'),**DEFAULTS,**CONFIGS[config],dataset=name,seed=seed,revision=cfg['model_revision'],
         data_manifest_sha256=digest(cfg['workspace']/'manifests'/name/'manifest.json'),
         stats_sha256=digest(cfg['workspace']/'stats'/f'{name}.pt'),source_sha256=core_hashes())
     if any(saved.get(k)!=v for k,v in expected.items()):
@@ -225,7 +206,7 @@ def complete_run(directory):
         rows=list(csv.DictReader(f))
     expected={(e,c) for e in range(9) for c in CONDITIONS}
     actual={(int(r['epoch']),r['variant']) for r in rows if r['variant'] in CONDITIONS}
-    n=27 if read_json(directory/'config.json').get('masking_method')=='symmetric-attention-v2' else 45
+    n=27
     if len(rows)!=n or actual!=expected or len({(r['epoch'],r['variant']) for r in rows})!=n:
         raise ValueError(f'Incomplete/duplicate evaluation rows: {directory}')
     for row in rows:
@@ -274,8 +255,8 @@ class Pipeline:
             if stage=='analyze' and previous is not None:
                 return previous['datasets'][name]['source_sha256']
             raise ValueError(f'Missing source JSONL: {entry["source"]}')
-        identity=dict(pool_size=self.cfg['pool_size'],overlap_policy=self.cfg['overlap_policy'],masking_method=self.cfg.get('masking_method','mean-noise-v1'),model_revision=self.cfg['model_revision'],stats_samples=self.cfg['stats_samples'],
-            pilot_steps=self.cfg['pilot_steps'],source_sha256=core_hashes(),
+        identity=dict(pool_size=self.cfg['pool_size'],overlap_policy=self.cfg['overlap_policy'],masking_method=self.cfg.get('masking_method','symmetric-attention-v2'),model_revision=self.cfg['model_revision'],stats_samples=self.cfg['stats_samples'],
+            source_sha256=core_hashes(),
             datasets={name:dict(source=str(entry['source']),source_revision=entry['source_revision'],
                 source_sha256=source_digest(name,entry)) for name,entry in self.cfg['datasets'].items()})
         if path.exists():
@@ -299,7 +280,7 @@ class Pipeline:
         print('Preserved interrupted preparation artifact:',target,flush=True)
 
     def dependent_runs_exist(self,name):
-        return any((self.root/folder/name).exists() for folder in ('runs','pilots'))
+        return (self.root/'runs'/name).exists()
 
     def prepare(self):
         for name,entry in self.cfg['datasets'].items():
@@ -321,7 +302,7 @@ class Pipeline:
                 self.quarantine(folder)
             self.execute(cli('prepare','--dataset',name,'--source',entry['source'],
                 '--source-revision',entry['source_revision'],'--output',folder,
-                '--pool-size',self.cfg['pool_size'],'--overlap-policy',self.cfg['overlap_policy']),f'prepare_{name}')
+                '--overlap-policy',self.cfg['overlap_policy']),f'prepare_{name}')
             manifest_valid(self.cfg,name)
 
     def gpu(self):
@@ -374,87 +355,40 @@ class Pipeline:
             self.execute(cli('stats',*common(self.cfg,name),'--samples',self.cfg['stats_samples'],'--output',path),f'stats_{name}',offline=True)
             stats_valid(self.cfg,name)
 
-    def job(self,name,config,seed,pilot=False):
-        base=self.root/('pilots' if pilot else 'runs')/name/config
-        directory=base/f'seed_{seed}{"_pilot" if pilot else ""}'
-        stamp=directory/'pilot-complete.json'
-        command=train_command(self.cfg,name,config,seed,pilot)
+    def job(self,name,config,seed):
+        directory=self.root/'runs'/name/config/f'seed_{seed}'
+        command=train_command(self.cfg,name,config,seed)
         if directory.exists():
             checkpoints=directory/'checkpoints'
             published=checkpoints.exists() and any(not p.name.startswith('.') for p in checkpoints.iterdir())
-            history=any((directory/name).exists() for name in ('metrics.csv','resources.json','progress.json'))
-            if not published and not history:
-                # A crash during model initialization has no committed training state.
-                self.quarantine(directory)
+            history=any((directory/n).exists() for n in ('metrics.csv','resources.json','progress.json'))
+            if not published and not history:self.quarantine(directory)
         if directory.exists():
-            verify_run_config(self.cfg,name,config,seed,directory,pilot)
-            if pilot and stamp.exists():
-                if read_json(stamp)['hardware']!=self.profile:
-                    raise ValueError('Pilot hardware/runtime changed; use a fresh workspace and rerun pilots')
-                if digest(directory/'config.json')!=read_json(stamp)['config_sha256']:
-                    raise ValueError('Modified pilot configuration')
-                verify_checkpoint(directory/read_json(stamp)['checkpoint_relative'])
-                print('Skip completed pilot:',directory,flush=True)
-                return True
-            if not pilot and complete_run(directory):
-                print('Skip completed training:',directory,flush=True)
-                return True
-            # Native runner verifies signature, state hashes and sample cursor.
-            command += ['--resume-from','latest']
-        if not pilot and self.stop is not None:
-            command += ['--stop-after-steps',str(self.stop)]
-        self.execute(command,f'{"pilot" if pilot else "train"}_{name}_{config}_seed_{seed}',offline=True)
-        if pilot:
-            with (directory/'metrics.csv').open() as f:
-                rows=list(csv.DictReader(f))
-            resources=read_json(directory/'resources.json')
-            if not any(int(r['epoch'])>0 for r in rows) or not resources or not all(math.isfinite(r['last_grad_norm']) and r['last_grad_norm']>0 for r in resources):
-                raise ValueError('Pilot did not verify post-update validation and finite nonzero gradients')
-            status=read_json(directory/'progress.json')
-            verify_checkpoint(Path(status['checkpoint']))
-            atomic_json(stamp,dict(hardware=self.profile,config_sha256=digest(directory/'config.json'),
-                checkpoint_relative=str(Path(status['checkpoint']).resolve().relative_to(directory.resolve()))))
-            return True
+            verify_run_config(self.cfg,name,config,seed,directory)
+            if complete_run(directory):
+                print('Skip completed training:',directory,flush=True);return True
+            command+=['--resume-from','latest']
+        if self.stop is not None:command+=['--stop-after-steps',str(self.stop)]
+        self.execute(command,f'train_{name}_{config}_seed_{seed}',offline=True)
         if not complete_run(directory):
             status=read_json(directory/'progress.json')
             atomic_json(self.root/'pipeline-status.json',dict(status='incomplete',task=f'{name}/{config}/seed_{seed}',checkpoint=status['checkpoint']))
-            print('Training stopped at a saved checkpoint. Repeat without --stop-after-steps and with --resume.',flush=True)
-            return False
+            print('Saved checkpoint. Repeat with --resume and without --stop-after-steps.',flush=True);return False
         return True
 
-    def pilots(self):
+    def train(self):
         for name in self.cfg['datasets']:
-            for config in pilot_configs(self.cfg):
-                self.job(name,config,42,pilot=True)
-
-    def screen(self):
-        for name in self.cfg['datasets']:
-            for config in pilot_configs(self.cfg):
-                path=self.root/'pilots'/name/config/'seed_42_pilot'
-                if not (path/'pilot-complete.json').is_file():
-                    raise ValueError('Resource pilots are required: use --stage pilot or --stage all first')
-                verify_run_config(self.cfg,name,config,42,path,True)
-                stamp=read_json(path/'pilot-complete.json')
-                if stamp['hardware']!=self.profile:
-                    raise ValueError('Run resource pilots on this GPU/runtime before screening')
-                if stamp['config_sha256']!=digest(path/'config.json'):
-                    raise ValueError('Modified pilot configuration')
-                verify_checkpoint(path/stamp['checkpoint_relative'])
             for config in self.cfg['configs']:
                 for seed in self.cfg['seeds']:
-                    if not self.job(name,config,seed):
-                        return False
+                    if not self.job(name,config,seed):return False
         return True
 
     def analyze(self):
         for name in self.cfg['datasets']:
-            found=False
-            for path in (self.root/'runs'/name).glob('*/seed_*'):
-                found=True
-                if not complete_run(path):
-                    raise ValueError(f'Finish incomplete run before analysis: {path}')
-            if not found:
-                raise ValueError(f'No trained runs for {name}')
+            for config in self.cfg['configs']:
+                for seed in self.cfg['seeds']:
+                    path=self.root/'runs'/name/config/f'seed_{seed}'
+                    if not complete_run(path):raise ValueError(f'Incomplete full matrix: {path}')
             self.execute(cli('analyze','--root',self.root/'runs','--dataset',name,
                 '--output',self.root/'figures','--bootstrap-samples',2000),f'analyze_{name}')
 
@@ -466,11 +400,9 @@ class Pipeline:
                     if stage!='prepare':
                         self.gpu()
                     self.prepare()
-                if stage in ('all','stats','pilot','screen'):
+                if stage in ('all','stats','train'):
                     self.model(); self.stats()
-                if stage in ('all','pilot'):
-                    self.pilots()
-                if stage in ('all','screen') and not self.screen():
+                if stage in ('all','train') and not self.train():
                     return
                 if stage in ('all','analyze'):
                     self.analyze()
@@ -482,12 +414,12 @@ class Pipeline:
 
 
 def main():
-    p=argparse.ArgumentParser(description='One-command preparation, pilots, screening, resume and plots')
+    p=argparse.ArgumentParser(description='Full-dataset training, exact resume, and analysis')
     p.add_argument('--config',required=True,help='JSON configuration; paths resolve relative to this file')
     p.add_argument('--stage',choices=STAGES,default='all')
     p.add_argument('--resume',action='store_true',help='Reuse the frozen workspace; skip completed runs and resume incomplete ones')
     p.add_argument('--dry-run',action='store_true',help='Print the plan without writing files, downloading or accessing CUDA')
-    p.add_argument('--stop-after-steps',type=int,default=None,help='Gracefully stop the first unfinished screening run at this absolute optimizer step')
+    p.add_argument('--stop-after-steps',type=int,default=None,help='Gracefully stop the first unfinished full-experiment run at this absolute optimizer step')
     args=p.parse_args()
     try:
         cfg=load_config(args.config)

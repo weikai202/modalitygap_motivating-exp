@@ -86,12 +86,12 @@ class FullExperimentTests(unittest.TestCase):
             raw['datasets']['mmimdb']=dict(raw['datasets']['mmsd2']);write_json(path,raw);cfg=launcher.load_config(path)
             stream=io.StringIO()
             with contextlib.redirect_stdout(stream):launcher.preview(cfg,'all',False,None)
-            text=stream.getvalue();self.assertEqual(text.count('modalitygap.cli run'),42) # 36 jobs + six pilots
-            self.assertIn('--pool-size all',text);self.assertIn('--overlap-policy prefer-heldout',text)
+            text=stream.getvalue();self.assertEqual(text.count('modalitygap.cli run'),36) # 36 full training jobs
+            self.assertNotIn('--pool-size',text);self.assertIn('--overlap-policy prefer-heldout',text)
             self.assertIn('--keep-step-checkpoints 2',text)
             p=launcher.Pipeline(cfg)
             with launcher.workspace_lock(cfg['workspace']) as p.fd:p.initialize('prepare')
-            raw['pool_size']=6000;write_json(path,raw);changed=launcher.load_config(path)
+            raw['overlap_policy']='error';write_json(path,raw);changed=launcher.load_config(path)
             with launcher.workspace_lock(cfg['workspace']) as fd:
                 q=launcher.Pipeline(changed,resume=True);q.fd=fd
                 with self.assertRaisesRegex(ValueError,'Frozen pipeline'):q.initialize('prepare')

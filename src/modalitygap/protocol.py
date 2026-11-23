@@ -8,16 +8,10 @@ GENRES = ('Action', 'Adventure', 'Animation', 'Biography', 'Comedy',
           'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 'Film-Noir',
           'History', 'Horror', 'Music', 'Musical', 'Mystery', 'Romance',
           'Sci-Fi', 'Short', 'Sport', 'Thriller', 'War', 'Western')
-LABELS = {'mmsd2': ('not_sarcastic', 'sarcastic'), 'mmimdb': GENRES,
-          'newsclippings': ('matched', 'mismatched'),
-          'crisismmd': ('not_informative', 'informative'),
-          'hatefulmemes': ('not_hateful', 'hateful')}
-SINGLE_LABEL = frozenset(LABELS) - {'mmimdb'}
+LABELS = {'mmsd2': ('not_sarcastic', 'sarcastic'), 'mmimdb': GENRES}
+SINGLE_LABEL = frozenset({'mmsd2'})
 TASK_PROMPTS = {
     'mmsd2': 'Classify sarcasm. Output exactly one category marker: not_sarcastic or sarcastic.',
-    'newsclippings': 'Decide whether the news image and its caption match the same real-world context. Output exactly one category marker: matched or mismatched.',
-    'crisismmd': 'Classify whether this disaster-related social media post provides information useful for crisis response. Output exactly one category marker: not_informative or informative.',
-    'hatefulmemes': 'Classify whether this meme expresses hate toward a protected group. Consider the image and text together. Output exactly one category marker: not_hateful or hateful.',
 }
 
 
@@ -38,7 +32,7 @@ DEFAULTS = dict(precision='bf16-mixed-fp32-trainable', model='Qwen/Qwen2.5-VL-3B
                 accumulation=16, rank=16, alpha=32, dropout=0.05,
                 weight_decay=0.01, warmup=0.05, max_grad_norm=1.0,
                 min_pixels=128*28*28, max_pixels=256*28*28,
-                max_length=1536, noise_seed=2026, noise_scale=0.05)
+                max_length=1536)
 
 
 def read_jsonl(path):

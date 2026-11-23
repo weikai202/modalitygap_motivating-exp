@@ -27,7 +27,7 @@ class ProcessorTests(unittest.TestCase):
             Image.new('RGB',(100,200),'red').save(image)
             for dataset in ('mmsd2','mmimdb'):
                 encoder = Encoder(self.processor,dataset)
-                for text in ('hello', '\nBody:\nBody:\n   ', '中文描述！🙂', 'one '*1000):
+                for text in ('hello', '\nBody:\nBody:\n   ', '\u4e2d\u6587\u63cf\u8ff0！🙂', 'one '*1000):
                     row = dict(id='example',image=str(image),text=text,labels=[LABELS[dataset][0]])
                     prompt,positions,truncated = encoder(row)
                     train,training_positions,_ = encoder(row,training=True)
